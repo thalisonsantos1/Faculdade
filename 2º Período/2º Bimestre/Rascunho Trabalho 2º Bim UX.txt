@@ -1,0 +1,20 @@
+Rascunho Trabalho 2º Bim UX
+
+1. Nome e Identidade Visual
+
+    Nome: TechNova ou Innova Labs.
+    Identidade Visual: Poderia ser algo moderno, com tons de azul e roxo para representar tecnologia e inovação, e um logotipo minimalista que evoque dinamismo e modernidade.
+
+2. Estrutura do App (5 Frames)
+
+    Tela Inicial (Splash Screen): Mostra o logotipo da empresa e uma animação sutil para dar um ar profissional e tecnológico.
+    Home / Visão Geral: Apresenta a empresa, suas áreas de atuação, e uma breve descrição das soluções que oferecem. Esta tela deve ter links para outras seções do app.
+    Equipe de Devs: Mostra os perfis dos 6 desenvolvedores com nome, cargo, especialidade e uma foto ou avatar.
+    Portfólio de Projetos: Exibe uma lista de projetos já desenvolvidos pela empresa. Cada projeto pode ter uma imagem, descrição e tecnologias utilizadas.
+    Feature Inovadora: Uma ferramenta que faz um diagnóstico de tecnologia ou sugere as melhores práticas em desenvolvimento, ajudando empresas a definirem requisitos básicos de um projeto digital.
+
+3. Função Inovadora
+
+    Uma ideia seria incluir uma ferramenta chamada TechPath Finder. Nela, o usuário responde a um breve questionário sobre o tipo de projeto (app, site, sistema), público-alvo e orçamento, e o app sugere tecnologias e frameworks ideais para o desenvolvimento.
+
+Se precisar de ajuda com detalhes de design ou funcionalidades, me avise!
