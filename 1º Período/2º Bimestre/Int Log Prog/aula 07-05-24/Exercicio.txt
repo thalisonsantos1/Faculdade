@@ -1,0 +1,22 @@
+Reconstrua a fórmula utilizando apenas conectivos ¬ (not) e v (ou):
+
+1 - X ^ Y = ¬(¬(X ^ Y)) --> dupla negação --> ¬(¬X v ¬Y) --> De Morgan
+
+2 - P -> Q = ¬P v Q
+
+3 - ¬(M ^ N) v P = (¬M v ¬N) v P
+
+4 - ¬(P v Q) v ¬(R ^ S) = ¬(P v Q) v (¬R v ¬S)
+
+5 - (A -> B) v ¬(A ^ B) = (¬A v B) v (¬A v ¬B)
+
+6 - (X v Y) -> (¬Y v Z) = ¬(X v Y) v (¬Y v Z)
+
+7 - (R -> S) -> Q = (¬R v S) -> Q = ¬(¬R v S) v Q
+
+8 - ¬A -> ¬(B ^ C) = ¬A -> (¬B v ¬C) = ¬(¬A) v (¬B v ¬C) = A v (¬B v ¬C)
+
+9 - S -> ((P -> Q)-> R) = S -> ((¬P v Q)-> R) = S -> (¬(¬P v Q) v R) = (¬S) v (¬(¬P v Q) v R)
+
+10 - (Q v P) ^ (R v Q) = ¬(¬(Q v P) ^ (R v Q)) = ¬(¬(Q v P) v ¬(R v Q))
+

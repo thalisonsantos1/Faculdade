@@ -1,0 +1,80 @@
+div {
+    border: 2px solid #000;
+    position: absolute;
+
+}
+.primeiro{
+    top: 20px;
+}
+.segundo{
+    top: 230px;
+}
+.terceiro{
+    top: 450px;
+}
+div.um {
+    width: 200px;
+    height: 80px;
+    background:  #cff;
+    z-index: 3;
+}
+div.dois {
+    width: 110px;
+    height: 120px;
+    left: 120px;
+    top: 20px;
+    background: #6f9;
+    z-index: 3;
+}
+div.tres {
+    width: 90px;
+    height: 60px;
+    left: 70px;
+    top: 50px;
+    background: #fcf;
+    z-index: 1;
+}
+div.quatro {
+    width: 200px;
+    height: 80px;
+    background:  #cff;
+    z-index: 1;
+}
+div.cinco {
+    width: 110px;
+    height: 120px;
+    left: 120px;
+    top: 20px;
+    background: #6f9;
+    z-index: 2;
+}
+div.seis {
+    width: 90px;
+    height: 60px;
+    left: 70px;
+    top: 50px;
+    background: #fcf;
+    z-index: 3;
+}
+div.sete {
+    width: 200px;
+    height: 80px;
+    background:  #cff;
+    z-index: 1;
+}
+div.oito {
+    width: 110px;
+    height: 120px;
+    left: 120px;
+    top: 20px;
+    background: #6f9;
+    z-index: 3;
+}
+div.nove {
+    width: 90px;
+    height: 60px;
+    left: 70px;
+    top: 50px;
+    background: #fcf;
+    z-index: 2;
+}

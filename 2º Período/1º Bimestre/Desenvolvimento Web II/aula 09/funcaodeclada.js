@@ -1,0 +1,1 @@
+var cor_default

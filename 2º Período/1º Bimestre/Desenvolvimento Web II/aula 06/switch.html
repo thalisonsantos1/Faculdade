@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Switch</title>
+</head>
+
+<body>
+
+    <h2 id="msg">Mensagens</h2>
+    <script>
+        const ufSul = prompt("Digite a UF da região Sul");
+        let mensagem = document.getElementById('msg');
+        switch (ufSul.toUpperCase){
+            case 'RS':
+                mensagem.innerText = "Rio Grande do Sul"
+                break
+            case 'SC':
+                mensagen,innerText = "Santa Catarina"
+                break
+            case 'PR':
+                mensagem.innerText = "Paraná"
+                break
+            default:
+                mensagem.innerText = "Não é uma sigla válida"
+        }
+
+    </script>
+
+</body>
+
+</html>

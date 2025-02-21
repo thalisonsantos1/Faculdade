@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <a href="https://www.laticiniosaviacao.com.br">Site da Aviação</a>
+    <script>
+        const linkBizarro = document.querySelectorAll("a")[0];
+        const mudaCor = (event) => {
+            const body = document.querySelector("body");
+            event.preventDefault();
+            body.style.backgroundColor = "red";
+        }
+        linkBizarro.addEventListener("click", mudaCor)
+    </script>
+</body>
+</html>

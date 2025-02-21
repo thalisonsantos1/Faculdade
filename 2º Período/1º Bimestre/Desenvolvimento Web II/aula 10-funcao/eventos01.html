@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button type="button" id="btn" class="btn">Botão</button>
+    <script>
+        const btn = document.getElementById("btn");
+        //btn.onclick = () => alert("Botão Clicado");
+        const fnAlertBox = ()=> {
+            console.log("Evento Mouse clicado")
+        }
+
+        const fnAlertBox1 = ()=> {
+            console.log("Evento Mouseover")
+        }
+        const fnAlertBox2 = () => {
+            console.log("Evento Mouseout")
+        }
+        btn.addEventListener("click", fnAlertBox);
+        btn.addEventListener("mouseover", fnAlertBox1);
+        btn.addEventListener("mouseout", fnAlertBox2);
+    </script>
+</body>
+</html>

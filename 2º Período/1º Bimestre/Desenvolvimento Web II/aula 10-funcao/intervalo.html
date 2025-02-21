@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intervalo</title>
+    <style>
+        #box {
+            width: 200px;
+            color: white;
+            margin-bottom: 20px 0;
+            line-height: 100px;
+            text-align: center;
+            background-color: red;
+        }
+        #box2 {
+            width: 200px;
+            color: white;
+            margin-bottom: 20px 0;
+            line-height: 100px;
+            text-align: center;
+            background-color: red;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="box">BOX</div>
+    <div id="box2">BOX2</div>
+    <script>
+        const box = document.querySelector ('#box');
+        const alternaCor = (cor1, cor2) => {
+            if (box.style.backgroundColor != cor1){
+                box.style.backgroundColor = cor1;
+            } else{
+                box.style.backgroundColor = cor2;
+            }
+        };
+        const box2 = document.querySelector ('#box2');
+        const alternaCor2 = (cor2, cor1) => {
+            if (box2.style.backgroundColor != cor2){
+                box2.style.backgroundColor = cor2;
+            } else{
+                box2.style.backgroundColor = cor1;
+            }
+        };
+        setInterval (alternaCor, 200, "blue", "red");
+        setInterval (alternaCor2, 200, "red", "blue");
+    </script>
+</body>
+</html>

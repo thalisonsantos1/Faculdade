@@ -1,0 +1,76 @@
+div {
+    border: 2px solid #000
+}
+div#a, div#b {
+    width: 300px;
+    margin-bottom: 20px;
+}
+div#a {
+    position: relative;
+    left: 10px;
+    top: 15px;
+    z-index: 25;
+    width: 400px;
+    height: 600px;
+    background: gray;
+}
+
+div.a-um{
+    position: absolute;
+    left: 10px;
+    top: 25px;
+    width: 20px;
+    height: 250px;
+    background: #cff;
+}  
+div.a-dois{
+    position: absolute;
+    left: 10px;
+    top: 295px;
+    width: 20px;
+    height: 250px;
+    background: black;
+}
+div.a-tres{
+    position: absolute;
+    left: 40px;
+    right: 40px ;
+    top: 550px;
+    width: 320px;
+    height: 20px;
+    background: #cff;
+}
+div.a-quatro{
+    position: absolute;
+    right: 10px;
+    top: 295px;
+    width: 20px;
+    height: 250px;
+    background: #cff;
+}
+div.a-cinco{
+    position: absolute;
+    right: 10px;
+    top: 25px;
+    width: 20px;
+    height: 250px;
+    background:black;
+}  
+div.a-seis{
+    position: absolute;
+    left: 40px;
+    right: 40px ;
+    top: 10px;
+    width: 320px;
+    height: 20px;
+    background: #cff;
+}
+div.a-sete{
+    position: absolute;
+    left: 40px;
+    right: 40px ;
+    top: 275px;
+    width: 320px;
+    height: 20px;
+    background: #cff;
+}

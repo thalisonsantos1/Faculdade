@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    #resultado{
+        clear: both;
+    }
+    .demo{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        width: 110px;
+        height: 80px;
+        float: left;
+        margin: 20px;
+        border: 2px solid red
+    }
+
+</style>
+<body>
+    <div class="demo">Aqui click</div>
+    <div class="demo">Aqui Mouse Down</div>
+    <div class="demo">Aqui Mouse UP</div>
+    <div class="demo">Aqui Mouseover</div>
+    <div class="demo">Aqui Mouseout</div>
+    <div class="demo">Aqui duplo Click</div>
+    <div id="resultado"></div>
+
+    <script>
+        const res = document.querySelector ("#resultado");
+        const demo = document.querySelectorAll (".demo");
+        demo [0].addEventListener("click", (event)=>{
+            res.innerHTML = `Evento: ${event.type}`;
+        });
+
+        demo [1].addEventListener("mousedown", (event)=>{
+            res.innerHTML = `Evento: ${event.type}`;
+        });
+
+        demo [2].addEventListener("mouseup", (event)=>{
+            res.innerHTML = `Evento: ${event.type}`;
+        });
+
+        demo [3].addEventListener("mouseover", (event)=>{
+            res.innerHTML = `Evento: ${event.type}`;
+        });
+
+        demo [4].addEventListener("mouseout", (event)=>{
+            res.innerHTML = `Evento: ${event.type}`;
+        });
+
+        demo [5].addEventListener("dblclick", (event)=>{
+            res.innerHTML = `Evento: ${event.type}`;
+        });
+
+    </script>
+
+</body>
+</html>

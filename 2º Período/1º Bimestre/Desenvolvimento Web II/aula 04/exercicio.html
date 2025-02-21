@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>aula 04</title>
+</head>
+<body>
+    <h2>Isto é Javascript</h2>
+
+    <script>
+        thalison = {
+            nome: "Thalison de Oliveira Santos",
+            idade: "31",
+            altura: 1.72,
+            andar: function (){
+                console.log("Thalison está caminhando");
+            },
+            lerlivro: function (titulo) {
+                console.log ("Thalison está lendo", titulo)
+            },
+        }
+    let nome = thalison.nome
+    let idade = thalison.idade
+    
+    let confirma = confirm (`
+    Você tem certeza que quer apagar o arquivo?`
+    );
+    if (confirma == true){
+        console.log ("O Botão ok foi clicado")
+    } else{
+        console.log ("O botão CANCELAR foi clicado")
+    }   
+
+
+    </script>
+</body>
+</html>

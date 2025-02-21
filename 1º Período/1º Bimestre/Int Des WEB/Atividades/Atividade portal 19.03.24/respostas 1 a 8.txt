@@ -1,0 +1,24 @@
+Respostas atividades portal:
+
+1 - HTML significa Hyper Text Markup Language (Linguagem de Marcação de Hiper Texto). 
+
+2 - Uma linguagem de marcação é um conjunto de sinais aplicados nos textos ou em dados para definir sua configuração e aparência em uma página web. 
+
+3 - A função do navegador é de interpretar o código HTML e mostrar ao usuário o conteúdo de uma página.
+
+4 - Um ambiente de desenvolvimento é o programa que será usado para desenvolver o código. Sua função é auxiliar o desenvovedor durante o processo de desenvolvimento da aplicação.
+
+5 - A sintaxe trata da estrutura de um programa escrito em código, envolvendo o conjunto de frases permitidas de uma linguagem, já a semântica mostra o significado associado dessas frases
+
+6 - Uma tag HTML é usada para instruir o navegador a formatar o texto conforme definido pelo desenvovedor. Por exemplo: uma tag pode ser definida para colocar em negrito, ou em itálico. Pode ainda ter uma tag para definição de níveis de títulos e/ou parágrafos.
+
+7 - As tag's são conjuntos de caracteres que formam um elemento dentro da página HTML. 
+Já o atributo está inserido dentro da tag e serve para dar qualidade ao elemento.
+Cada atributo recebe um valor para catacterizá-lo. 
+
+No exemplo abaixo, "<p>" é uma tag inicial, "align" é caracterizado como atributo e "right" é o valor atribuído ao atributo de linhamento de parágrafo, no caso "right".
+
+	<p align="right"> 	Conteúdo do texto	</p>
+	
+8 - A finalidade da linha <!DOCTYPE html> é informar ao nevegador que o código trata-se de versão 5 do HTML. 
+	

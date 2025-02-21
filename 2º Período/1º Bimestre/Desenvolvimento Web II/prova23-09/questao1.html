@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questão 01</title>
+</head>
+<body>
+    <h2 id="status">Status</h2>
+    <script>
+
+        let nota1 = parseFloat(prompt("Digite a primeira nota:"));
+        let nota2 = parseFloat(prompt("Digite a segunda nota:"));
+        let nota3 = parseFloat(prompt("Digite a terceira nota:"));
+        let media = (nota1 + nota2 + nota3) / 3;
+        let status = document.getElementById ('status')
+         
+        if (media < 5) {
+            status.innerText = "Você foi reprovado"
+        } else if (media >= 7 ) {
+            status.innerText = "Você foi aprovado"
+        } else if (media >= 5 && media < 7) {
+            status.innerText = "Você está de recuperação"
+        }
+
+    </script>
+</body>
+</html>

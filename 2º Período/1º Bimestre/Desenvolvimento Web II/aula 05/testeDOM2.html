@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste DOM2</title>
+    <style>
+        .highlight {
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+    <h2 id="conteudo">Hello World</h2>
+
+    <button type="button" onclick="highlight()" ondblclick="delhighlight()">Marcar Linha</button>
+    
+
+    <script>
+        
+        function highlight(){
+            document.getElementById('conteudo').classList.add("highlight")
+        }
+
+        function delhighlight(){
+            document.getElementById('conteudo').classList.remove("highlight")
+        }
+    </script>
+</body>
+</html>

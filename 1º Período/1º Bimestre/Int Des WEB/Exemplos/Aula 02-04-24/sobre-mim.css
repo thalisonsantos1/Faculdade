@@ -1,0 +1,47 @@
+.fundo{
+    background-color: gray;
+    max-width: 800px;
+    margin: 40px auto;
+}
+
+.cabecalho{
+    align-items: center;
+    background-color: blue;
+    width: 800px;
+    text-align: center;   
+}
+.nome{
+    text-align: center;
+    padding: 60px;    
+}
+
+.imagem{
+    align-items: center;
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+}
+.conteudo{
+    background-color: whitesmoke;
+    width: 750px;
+    align-items: center;
+    margin-left: 15px;
+    padding: 10px;
+}
+.sobre{
+    text-align: justify;    
+}
+.formacao{
+    text-align: justify;    
+}
+.interesses{
+    text-align: justify;    
+}
+.valores{
+    text-align: justify;    
+}
+.rodape{
+    text-align: center;
+    align-items: baseline;
+    padding: 20px;
+}

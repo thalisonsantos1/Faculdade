@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste DOM 3</title>
+</head>
+<body>
+    
+    <ul id="list">
+        <li>Item 1</li>
+        <li>Item 2</li>
+    </ul>
+
+    <button onclick="addItem()">Adiciona Item</button>
+    <button onclick="removeItem()">Remove Item</button>
+
+    <script>
+        function addItem(){
+            //cria um elemento na lista
+            var newItem = document.createElement('li');
+            newItem.textContent = prompt('Insira um novo item na lista: ')
+            document.getElementById('list').appendChild(newItem);
+        }
+        function removeItem(){
+            var list = document.getElementById('list');
+            var lastItem = list.lastElementChild;
+            list.removeChild(lastItem);
+        }
+
+    </script>
+
+
+</body>
+</html>

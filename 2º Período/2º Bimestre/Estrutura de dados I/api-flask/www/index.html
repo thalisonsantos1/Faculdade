@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+        <script src="script.js"></script>
+</head>
+<body>
+    <div>
+        <button onclick="getDados()">Chamar Endpoint Flask</button>
+        <span id="exit"></span>
+    </div>
+    <hr>
+    <div class="form">
+        <form>
+            <label for="cpf">Informe o CPF</label><br>
+            <input type="text" id="doc" name="fname"><br>           
+            <br>
+            
+        </form> 
+        <button type="submit"onclick="buscaCliente()">Consultar</button>
+    </div>
+
+    <div>
+        <p><strong>Nome: </strong> <span id="nome"></span></p>
+        <p><strong>Nascimento: </strong> <span id="nascimento"></span></p>
+        <p><strong>E-mail: </strong> <span id="email"></span></p>
+    </div>
+    <section class="card p-4 shadow-sm">
+        <h2 class="cardtitle">Cadastrar Novo Cliente</h2>
+        <form id="cadastro-form" class="row g-3">
+            <div class="col-4">
+                <!--<label for="cpf-cadastro" class="form-label">CPF</label>-->
+                <input type="text" class="form-control" id="cpf-cadastro" placeholder="CPF" required>
+            </div>
+            <div class="col-4">
+                <!--<label for="nome" class="form-label">Nome</label>-->
+                <input type="text" class="form-control" id="name" placeholder="Nome Completo" required>
+            </div>
+            <div class="col-4">
+                <!--<label for="nascimento" class="form-label">Data de Nascimento</label>-->
+                <input type="text" class="form-control" id="data_nascimento" placeholder="Data de Nascimento" required>
+            </div>
+            <div class="col-4">
+                <!--<label for="email" class="form-label">CPF</label>-->
+                <input type="text" class="form-control" id="mail" placeholder="E-mail" required>
+            </div>
+        </form>
+        <div class="col-12">
+            <button type="submit" class="btn btn-success" onclick="cadastrarCliente()">Cadastrar</button>
+        </div>
+    </section>
+    
+</body>
+</html>

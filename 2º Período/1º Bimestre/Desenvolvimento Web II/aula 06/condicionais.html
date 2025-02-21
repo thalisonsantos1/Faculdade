@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Condicionais</title>
+</head>
+
+<body>
+
+    <h2 id="msg">Mensagens</h2>
+    <script>
+        const idade = prompt("Insira sua idade. Somente números: ");
+        let mensagem = document.getElementById('msg');
+        if (idade <= 11) {
+            alert("Você ainda é criança!!")
+        } else if (idade > 11 && idade <= 14) {
+            mensagem.innerText = "Você é pré adolescente!"
+        } else if (idade > 14 && idade <= 21) {
+            mensagem.innerText = "Você é adolescente!"
+        } else if (idade > 21 && idade <= 60) {
+            mensagem.innerText = "Você é adulto!"
+        } else {
+            mensagem.innerText = "Você é idoso!"
+        }
+
+    </script>
+
+</body>
+
+</html>

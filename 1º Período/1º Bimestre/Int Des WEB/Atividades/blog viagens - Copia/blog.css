@@ -1,0 +1,108 @@
+body{
+    background-image: url(pexels-tove-liu-4004016.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 2000px 2000px;
+    background-origin: content-box, padding-box;
+    max-width: 800px;
+    margin: 40px auto;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+header{
+    align-content: center;
+    background-image: url("b3.jpg");
+    background-position: center;
+    background-position-y: top;
+    background-position: fixed;
+    background-color: #cccccc;
+    background-size: 820px 150px;
+    border-radius: 10px;
+    width: 800px;
+    padding: 15px;
+}
+nav{
+background-image: url(mata.png); 
+background-size: 800px 150px;
+background-size: 800px 150px;
+border-radius: 10px;
+}
+
+main{
+   
+    border-radius: 10px;
+    width: 800px;
+    margin: 15px;
+}
+article{
+    background-color: #979797;
+    border-radius: 10px;
+    margin: 15px;
+}
+footer{
+    background-color: #c6c6c6;
+    border-radius: 10px;
+    width: 800px;
+    height: 300px;
+    margin: 15px;
+    text-align: center;
+}
+.header{
+    text-align: center;
+    color: white;
+    text-shadow: 2px 2px black;
+}
+.nav{
+    text-align: left;
+    align-items: baseline;
+}
+.inicio{
+    text-align: center;
+}
+.paginas{
+    width: 780px;
+    height: 600px;
+    border-radius: 10px;
+ }
+.site{
+    width: 540px;
+    height: 600px;
+    border-radius: 10px;
+ }
+ .gif{
+    background-repeat: space;
+ }
+ .menu{
+    align-items: center;
+    text-align: center;
+    align-items: center;
+    text-decoration-line: underline;
+    color: white;
+    text-shadow: 2px 2px black;   
+   
+ }
+
+ .links{
+    color: white;
+    text-shadow: 2px 2px black;
+ }
+.footer{
+    align-content: right;
+    width: 800px;
+    color: white;
+    text-shadow: 2px 2px black;
+}
+.linksuteis{
+    align-items: left;
+    text-align: center;
+    padding: 10px;
+}
+.iffooter{
+    width: 600px;
+    align-items: right;
+    padding: 10px;
+    height: 200px;
+    color: white;
+    text-shadow: 2px 2px black;
+}

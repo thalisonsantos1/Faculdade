@@ -1,0 +1,45 @@
+*,
+*:before,
+*:after {
+-webkit-box-sizing: border-box;
+-moz-box-sizing: border-box;
+box-sizing: border-box;
+}
+
+.clear {
+clear: both;
+}
+body {
+font: 18px/1.4 arial, sans-serif;
+color: #333;
+}
+#tudo {
+width: 960px;
+margin: 0 auto;
+}
+.topo_header h1 {
+font-size: 36px;
+margin: 4px 0 2px 0;
+text-align: right;
+}
+.topo_header a {
+color: #900;
+text-decoration: none;
+}
+.topo_header h2 {
+font-size: 20px;
+margin: 2px 0 4px 0;
+text-align: right;
+}
+.principal {
+width: 720px;
+float: right;
+}
+.auxiliar {
+width: 220px;
+float: left;
+}
+.rodape {
+clear: both;
+height: 25px;
+}
