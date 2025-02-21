@@ -1,0 +1,122 @@
+[
+    {
+        "cpf": "12345678900",
+        "nome": "João Silva",
+        "data_nascimento": "1990-01-01",
+        "email": "joao.silva@example.com"
+    },
+    {
+        "cpf": "98765432100",
+        "nome": "Maria Oliveira",
+        "data_nascimento": "1985-05-20",
+        "email": "maria.oliveira@example.com"
+    },
+    {
+        "cpf": "11111111111",
+        "nome": "João Silva",
+        "data_nascimento": "1985-05-10",
+        "email": "joao.silva@example.com"
+    },
+    {
+        "cpf": "22222222222",
+        "nome": "Maria Oliveira",
+        "data_nascimento": "1990-11-22",
+        "email": "maria.oliveira@example.com"
+    },
+    {
+        "cpf": "33333333333",
+        "nome": "Carlos Pereira",
+        "data_nascimento": "1978-07-30",
+        "email": "carlos.pereira@example.com"
+    },
+    {
+        "cpf": "44444444444",
+        "nome": "Ana Souza",
+        "data_nascimento": "2000-02-15",
+        "email": "ana.souza@example.com"
+    },
+    {
+        "cpf": "55555555555",
+        "nome": "Fernanda Rocha",
+        "data_nascimento": "1983-09-07",
+        "email": "fernanda.rocha@example.com"
+    },
+    {
+        "cpf": "66666666666",
+        "nome": "Pedro Santos",
+        "data_nascimento": "1995-04-25",
+        "email": "pedro.santos@example.com"
+    },
+    {
+        "cpf": "77777777777",
+        "nome": "Lucas Alves",
+        "data_nascimento": "1992-12-11",
+        "email": "lucas.alves@example.com"
+    },
+    {
+        "cpf": "88888888888",
+        "nome": "Juliana Costa",
+        "data_nascimento": "1989-06-18",
+        "email": "juliana.costa@example.com"
+    },
+    {
+        "cpf": "99999999999",
+        "nome": "Paulo Cardoso",
+        "data_nascimento": "1976-03-22",
+        "email": "paulo.cardoso@example.com"
+    },
+    {
+        "cpf": "10101010101",
+        "nome": "Mariana Lima",
+        "data_nascimento": "1987-08-27",
+        "email": "mariana.lima@example.com"
+    },
+    {
+        "cpf": "11111111112",
+        "nome": "Renato Teixeira",
+        "data_nascimento": "1975-05-13",
+        "email": "renato.teixeira@example.com"
+    },
+    {
+        "cpf": "12121212121",
+        "nome": "Aline Barros",
+        "data_nascimento": "1993-10-29",
+        "email": "aline.barros@example.com"
+    },
+    {
+        "cpf": "13131313131",
+        "nome": "Fábio Santos",
+        "data_nascimento": "1991-01-17",
+        "email": "fabio.santos@example.com"
+    },
+    {
+        "cpf": "14141414141",
+        "nome": "Bruna Correia",
+        "data_nascimento": "1984-09-05",
+        "email": "bruna.correia@example.com"
+    },
+    {
+        "cpf": "15151515151",
+        "nome": "Ricardo Moreira",
+        "data_nascimento": "1994-02-19",
+        "email": "ricardo.moreira@example.com"
+    },
+    {
+        "cpf": "16161616161",
+        "nome": "Simone Torres",
+        "data_nascimento": "1982-11-08",
+        "email": "simone.torres@example.com"
+    },
+    {
+        "cpf": "17171717171",
+        "nome": "Rafael Mendes",
+        "data_nascimento": "1996-07-14",
+        "email": "rafael.mendes@example.com"
+    },
+    {
+        "cpf": "18181818181",
+        "nome": "Luciana Martins",
+        "data_nascimento": "1979-12-20",
+        "email": "luciana.martins@example.com"
+    }
+]
