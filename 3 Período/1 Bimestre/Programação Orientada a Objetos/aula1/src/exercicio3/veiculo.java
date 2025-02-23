@@ -23,7 +23,26 @@ public class veiculo { //classe
         }
     }
 
+/*************  ✨ Codeium Command ⭐  *************/
+    /**
+     * @return o valor do seguro do veiculo, que   de 6% do valor do veiculo
+     */
+/******  f4ff25da-0d41-4310-946a-c4887a664bda  *******/
     double valorSeguro(){
         return 0.06 * Valor;
     }
+public class veiculo { //classe
 
+    String  Modelo; 
+    String  Marca;
+    String  Placa;  
+    int     anoFabricacao;
+    double  Valor;
+
+    int IdadeCarro(){
+//        Date time = new date(now);
+        //int anoAtual = 2025;
+        return 2025 - anoFabricacao;
+    }
+
+    double ValorIPVA(){
