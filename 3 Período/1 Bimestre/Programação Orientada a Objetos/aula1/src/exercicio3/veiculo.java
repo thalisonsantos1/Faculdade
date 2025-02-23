@@ -28,3 +28,5 @@ public class veiculo { //classe
     }
 
 }
+
+public class motor  
