@@ -28,9 +28,3 @@ public class veiculo { //classe
     }
 
 }
-
-public class Main {
-    public static void main(String[] args) {
-        veiculo veiculo = new veiculo();        
-    }
-}
