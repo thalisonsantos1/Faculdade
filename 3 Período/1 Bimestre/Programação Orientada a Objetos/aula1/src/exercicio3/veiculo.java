@@ -22,3 +22,8 @@ public class veiculo { //classe
             return 0;
         }
     }
+
+    double valorSeguro(){
+        return 0.06 * Valor;
+    }
+}   
