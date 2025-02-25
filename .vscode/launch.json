@@ -1,15 +1,21 @@
 {
 	"version": "0.2.0",
 	"configurations": [
-	
+		{
+			"type": "java",
+			"name": "Operadores",
+			"request": "launch",
+			"mainClass": "Operadores",
+			"projectName": "Faculdade_7817431a"
+		},
 		{
 			"type": "java",
 			"name": "Main",
 			"request": "launch",
 			"mainClass": "exercicio3.Main",
 			"projectName": "Faculdade_7817431a"
-		},
-			],
+		}
+	],
 	"lastProgramExecuted": "<cancel>",
 	"lastProgramArguments": []
 }
