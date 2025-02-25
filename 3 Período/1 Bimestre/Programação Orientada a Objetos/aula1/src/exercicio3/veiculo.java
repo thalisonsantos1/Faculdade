@@ -24,6 +24,6 @@ public class veiculo { //classe
     }
 
     double valorSeguro(){
-        return 0.06 * Valor;
+        return 0.05 * Valor;
     }
 }   
