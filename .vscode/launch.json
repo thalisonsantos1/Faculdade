@@ -3,6 +3,20 @@
 	"configurations": [
 		{
 			"type": "java",
+			"name": "CalculadoraSimples",
+			"request": "launch",
+			"mainClass": "exercicios.CalculadoraSimples",
+			"projectName": "Faculdade_7817431a"
+		},
+		{
+			"type": "java",
+			"name": "Repeticao",
+			"request": "launch",
+			"mainClass": "Repeticao",
+			"projectName": "Faculdade_7817431a"
+		},
+		{
+			"type": "java",
 			"name": "Operadores",
 			"request": "launch",
 			"mainClass": "Operadores",
