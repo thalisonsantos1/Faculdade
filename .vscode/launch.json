@@ -3,6 +3,13 @@
 	"configurations": [
 		{
 			"type": "java",
+			"name": "Main",
+			"request": "launch",
+			"mainClass": "exercicio4.Main",
+			"projectName": "Faculdade_7817431a"
+		},
+		{
+			"type": "java",
 			"name": "CalculadoraSimples",
 			"request": "launch",
 			"mainClass": "exercicios.CalculadoraSimples",
