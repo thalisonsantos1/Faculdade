@@ -7,32 +7,37 @@ public class Main {
 
     public static void main(String[] args) {
   
-        veiculo veiculo = new veiculo();
-        Scanner myObj = new Scanner(System.in);        
+        Veiculo veiculo = new Veiculo();
+        Scanner in = new Scanner(System.in);        
            
     
     System.out.println("Informe o modelo do veículo: ");
-    veiculo.Modelo = myObj.nextLine();
+    veiculo.modelo = in.nextLine();
+
     System.out.println("Informe a marca do veículo: ");
-    veiculo.Marca = myObj.nextLine();
+    veiculo.marca = in.nextLine();
+
     System.out.println("Informe a placa do veiculo: ");
-    veiculo.Placa = myObj.nextLine();
+    veiculo.placa = in.nextLine();
+
     System.out.println("Informe o ano de fabricação do veículo: ");
-    veiculo.anoFabricacao = myObj.nextInt();
+    veiculo.anoFabricacao = in.nextInt();
+
     System.out.println("Informe o valor do veículo: ");
-    veiculo.Valor = myObj.nextDouble();
+    veiculo.valor = in.nextDouble();
+    
     
     
     DecimalFormat df=new DecimalFormat("###,##0.00");
-    System.out.println("Modelo: " + veiculo.Modelo);
-    System.out.println("Marca: "  + veiculo.Marca);
-    System.out.println("Placa: "  + veiculo.Placa);
+    System.out.println("Modelo: " + veiculo.modelo);
+    System.out.println("Marca: "  + veiculo.marca);
+    System.out.println("Placa: "  + veiculo.placa);
     System.out.println("Ano: "    + veiculo.anoFabricacao);
-    System.out.println("Valor: "  + df.format (veiculo.Valor));
+    System.out.println("Valor: "  + df.format (veiculo.valor));
     System.out.println("IPVA: "   + df.format (veiculo.ValorIPVA()));
     System.out.println("Seguro: " + df.format (veiculo.valorSeguro()));
     System.out.println("Idade: "  + veiculo.IdadeCarro() + " anos");
-    
+
     }
-  
 }
+
