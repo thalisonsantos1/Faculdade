@@ -24,5 +24,7 @@ public class App {
        numeros[5] = 357;
        imprimir(numeros);
        imprimir(palavras);
+       System.out.println(Long.bitCount(tamanho));
+       System.out.println();
     }
 }
