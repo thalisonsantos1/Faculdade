@@ -1,6 +1,6 @@
 package exercicio3;
 
-public class Veiculo { //classe
+public class veiculo { //classe
 
     String  modelo;
     String  marca;
@@ -8,7 +8,7 @@ public class Veiculo { //classe
     int     anoFabricacao;
     double  valor;
     
-public Veiculo(){
+public veiculo(){
     System.out.println("construindo o objeto Veiculo");
     anoFabricacao = 2000;
 
