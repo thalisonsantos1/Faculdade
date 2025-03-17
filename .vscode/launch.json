@@ -3,6 +3,20 @@
 	"configurations": [
 		{
 			"type": "java",
+			"name": "VetorDeObjetosCP",
+			"request": "launch",
+			"mainClass": "VetorDeObjetosCP",
+			"projectName": "Faculdade_2d8140d4"
+		},
+		{
+			"type": "java",
+			"name": "VetorDeObjetos",
+			"request": "launch",
+			"mainClass": "VetorDeObjetos",
+			"projectName": "Faculdade_2d8140d4"
+		},
+		{
+			"type": "java",
 			"name": "Main",
 			"request": "launch",
 			"mainClass": "Construtores.exercicio2.Main",
