@@ -3,6 +3,20 @@
 	"configurations": [
 		{
 			"type": "java",
+			"name": "Main2",
+			"request": "launch",
+			"mainClass": "modificadoresacesso.pacote2.Main2",
+			"projectName": "Faculdade_2d8140d4"
+		},
+		{
+			"type": "java",
+			"name": "Main",
+			"request": "launch",
+			"mainClass": "modificadoresacesso.pacote1.Main",
+			"projectName": "Faculdade_2d8140d4"
+		},
+		{
+			"type": "java",
 			"name": "Matriz",
 			"request": "launch",
 			"mainClass": "Matriz",
