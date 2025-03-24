@@ -1,4 +1,4 @@
-package encapsulamento.exemplo;
+//package encapsulamento.exemplo;
 
 public class Produto {
     

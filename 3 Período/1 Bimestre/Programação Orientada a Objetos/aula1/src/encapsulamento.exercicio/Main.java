@@ -1,4 +1,4 @@
-package encapsulamento.exercicio;
+//package encapsulamento.exercicio;
 
 import java.util.Scanner;
 
