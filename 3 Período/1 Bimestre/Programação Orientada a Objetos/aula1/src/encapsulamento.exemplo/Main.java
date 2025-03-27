@@ -1,4 +1,4 @@
-//package encapsulamento.exemplo;
+package aula1.src.encapsulamento.exemplo;
 
 import java.util.Scanner;
 
