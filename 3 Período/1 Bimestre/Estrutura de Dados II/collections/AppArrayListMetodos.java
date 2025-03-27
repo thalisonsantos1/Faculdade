@@ -16,10 +16,10 @@ public class AppArrayListMetodos {
         System.out.println("Palavra na posicao 3: " + palavra);
 
         // recuperando a ultima palavra da estrutura
-        System.out.println("Palavra na ultima posicao: " + palavras.getLast());
+        //System.out.println("Palavra na ultima posicao: " + palavras.getLast());
 
         // recuperando a primeira palavra da estrutura
-        System.out.println("Palavra na primeira posicao: " + palavras.getFirst());
+        //System.out.println("Palavra na primeira posicao: " + palavras.getFirst());
 
         // ordenar o arraylist
         Collections.sort(palavras);
