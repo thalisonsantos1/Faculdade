@@ -28,6 +28,12 @@ public class Main {
         f2.setDepartamento(d);
         d.getFuncionarios().add(f2);
 
+        f3.setDepartamento(d);
+        d.getFuncionarios().add(f3);
+
+        f4.setDepartamento(d2);
+        d2.getFuncionarios().add(f4);
+
         //imprimindo funcionario:
 
         System.out.println(f1.getNome() + " trabalha no departamento " + f1.getDepartamento().getNome());
