@@ -1,5 +1,3 @@
-//6.	Dado um array, remova os valores duplicados e exiba o novo array sem repetições.
-
 package exercicio06;
 
 public class exercicio06 {
@@ -21,12 +19,12 @@ public class exercicio06 {
             }
         }
         System.out.println("Array original: ");
-        // Exibe o array original
+        
         for (int i = 0; i < numeros.length; i++) {
             System.out.print(numeros[i] + " ");
         }
         System.out.println("\nArray sem repetições: ");
-        // Exibe o novo array sem repetições
+        
         for (int i = 0; i < j; i++) {
             System.out.print(numerosSemRepeticao[i] + " ");
         }

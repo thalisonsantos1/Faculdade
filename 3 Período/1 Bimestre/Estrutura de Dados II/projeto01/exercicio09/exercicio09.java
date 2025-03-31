@@ -1,11 +1,3 @@
-/*
- 9.	Dado um array com números positivos e negativos, encontre o subarray com a maior soma.
-Exemplo:
-Entrada: [-2,1,-3,4,-1,2,1,-5,4]  
-Saída: 6 (subarray [4,-1,2,1])
-
- */
-
 package exercicio09;
 
 public class exercicio09 {

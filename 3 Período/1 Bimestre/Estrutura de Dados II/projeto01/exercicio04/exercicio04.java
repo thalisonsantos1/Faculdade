@@ -1,5 +1,3 @@
-//4.	Crie um programa que inverta a ordem dos elementos de um array sem usar uma nova estrutura de dados auxiliar.
-
 package exercicio04;
 
 public class exercicio04 {

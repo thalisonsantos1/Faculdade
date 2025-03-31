@@ -1,5 +1,3 @@
-//2.	Dado um array de números inteiros, calcule e exiba a média dos elementos.
-
 package exercicio02;
 
 public class exercicio02 {

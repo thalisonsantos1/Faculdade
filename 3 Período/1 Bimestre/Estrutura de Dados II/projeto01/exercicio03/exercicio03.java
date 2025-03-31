@@ -1,5 +1,3 @@
-//Preencha um array com 10 números e conte quantos são pares e quantos são ímpares.
-
 package exercicio03;
 
 public class exercicio03 {

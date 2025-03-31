@@ -1,8 +1,3 @@
-/*8.	Dado dois arrays ordenados, crie um terceiro array que contenha todos os elementos ordenados.
-Entrada: [1, 3, 5] e [2, 4, 6]  
-Saída: [1, 2, 3, 4, 5, 6]
-*/
-
 package exercicio08;
 
 public class exercicio08 {
@@ -13,7 +8,7 @@ public class exercicio08 {
         int n2 = array2.length;
         int[] mergedArray = new int[n1 + n2];
 
-        // Imprime os arrays originais
+        
         System.out.print("Array 1: ");
         for (int i : array1) {
             System.out.print(i + " ");
@@ -26,10 +21,10 @@ public class exercicio08 {
         }
         System.out.println();
 
-        // Mescla os dois arrays ordenados
+        
         mergeArrays(array1, array2, mergedArray, n1, n2);
 
-        // Imprime o array mesclado
+        
         System.out.print("Array mesclado: ");
         for (int i : mergedArray) {
             System.out.print(i + " ");
