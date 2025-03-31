@@ -1,0 +1,67 @@
+Table Produto {
+  id int [pk, not null, increment]
+  nome_produto varchar [not null]
+  cod_barras int [not null]
+  preco float [not null]
+  estoque int [not null]
+}
+
+Table Cliente {
+  id_cliente int [pk, not null, increment]
+  nome_cliente varchar [not null]
+  cpf int [not null]
+  telefone int [not null]
+  email varchar [not null]
+}
+
+Table Operador{
+  id_operador int [pk, not null, increment]
+  nome_operador varchar [not null]
+  login varchar [not null]
+  senha varchar [not null]
+  permissao varchar [not null]
+}
+
+Table Venda {
+  id_venda int [pk, not null, increment]
+  data_venda date [not null]
+  valor_venda float [not null]
+  forma_pgto varchar [not null]
+  operador int [not null, ref: > Operador.id_operador]
+  cliente int [not null, ref: > Cliente.id_cliente]
+  item int [not null, ref:> Item_Venda.id_item]
+}
+
+Table Item_Venda {
+  id_item int [pk, not null, increment]
+  id_venda int [not null, ref:> Venda.id_venda]
+  id_produto int [not null, ref:> Produto.id]
+  qtd int [not null]
+  preco_unitario float [not null, ref:> Produto.preco]
+  desconto float 
+}
+
+Table Pagamento {
+  id_pagamento int [pk, not null, increment]
+  id_venda int [not null, ref:> Venda.id_venda]
+  tipo_pagamento varchar [not null]
+  valor float [not null]
+  status varchar [not null]
+}
+
+Table Caixa {
+  id_caixa int [pk, not null, increment]
+  operador int [not null, ref:> Operador.id_operador]
+  data_abertura date [not null]
+  data_fechamento date [not null]
+  saldo_inicial float [not null]
+  saldo_final float [not null]
+}
+
+Table Promocao {
+  id_promocao int [pk, not null, increment]
+  descricao varchar [not null]
+  desconto float [not null]
+  data_inicio date [not null]
+  data_fim date [not null]
+}
