@@ -22,7 +22,7 @@ public class Crianca {
         this.idade = idade;
     }
 
-    public List<Responsavel> getResponsavels() {
+    public List<Responsavel> getResponsaveis() {
         return responsavels;    
     }
 
