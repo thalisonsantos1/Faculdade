@@ -3,6 +3,13 @@
 	"configurations": [
 		{
 			"type": "java",
+			"name": "Main",
+			"request": "launch",
+			"mainClass": "Main",
+			"projectName": "Faculdade_dbee44da"
+		},
+		{
+			"type": "java",
 			"name": "exercicio01",
 			"request": "launch",
 			"mainClass": "exercicio01.exercicio01",
