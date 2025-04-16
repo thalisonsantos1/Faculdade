@@ -1,0 +1,121 @@
+Table Hospede {
+  id int [pk, increment]
+  nome varchar [not null]
+  cpf varchar [not null, unique]
+  email varchar [not null, unique]
+  telefone varchar [not null]
+  endereco varchar [not null]
+
+}
+
+Table Endereco{
+  id int [pk, not null, increment]
+  rua varchar [not null]
+  numero int [not null]
+  cep varhcar [not null]
+}
+
+Table EnderecoHospede{
+  id not [pk, not null]
+  id_hospede int [not null, ref: > Hospede.id]
+  id_endereco int [not null, ref: > Endereco.id]
+}
+
+Table EnderecoFuncionario{
+  id not [pk, not null]
+  id_funcionario int [not null, ref: > Funcionario.id]
+  id_endereco int [not null, ref: > Endereco.id]
+}
+
+Table Tipo_quarto {
+  id_tipo_quarto int [pk, increment]
+  nome varchar [not null]
+  capacidade_max int [not null]
+}
+
+Table Quarto {
+  id_quarto int [pk, increment]
+  numero varchar [not null, unique]
+  id_tipo_quarto int [not null, ref: > Tipo_quarto.id_tipo_quarto]
+  status boll [not null]
+}
+
+Table Historico_preco {
+  id_historico_preco int [pk, increment]
+  id_tipo_quarto int [not null, ref: > Tipo_quarto.id_tipo_quarto]
+  preco decimal [not null]
+  data_inicio date [not null]
+  data_fim date [not null]
+}
+
+Table Reserva {
+  id_reserva int [pk, increment]
+  id_hospede int [not null, ref: > Hospede.id]
+  id_quarto int [not null, ref: > Quarto.id_quarto]
+  id_cancelamento int [not null, ref: > Cancelamento.id_cancelamento]
+  data_checkin date [not null]
+  data_checkout date [not null]
+  valor_total decimal [not null]
+  status varchar [not null]
+  motivo_cancelamento varchar [not null]
+}
+
+Table Servico_adicional {
+  id_servico int [pk, increment]
+  nome varchar [not null]
+  descricao varchar [not null]
+  preco decimal [not null]
+  estoque int [not null]
+}
+
+Table Reserva_servico {
+  id int [pk, increment]
+  id_reserva int [not null, ref: > Reserva.id_reserva]
+  id_servico int [not null, ref: > Servico_adicional.id_servico]
+  quantidade int [not null]
+  data_solicitacao date [not null]
+}
+
+Table Pagamento {
+  id int [pk, increment]
+  id_reserva int [not null, ref: > Reserva.id_reserva]
+  metodo varchar [not null]
+  valor decimal [not null]
+  data_pagamento date [not null]
+}
+
+Table Funcionario {
+  id int [pk, increment]
+  nome varchar [not null]
+  cpf varchar [not null, unique]
+  cargo varchar [not null]
+}
+
+Table Limpeza_quarto {
+  id int [pk, increment]
+  id_quarto int [not null, ref: > Quarto.id_quarto]
+  id_funcionario int [not null, ref: > Funcionario.cpf]
+  data_da_limpeza date [not null]
+}
+
+Table Avaliacao {
+  id int [pk, increment]
+  nota int [not null]
+  comentario varchar [not null]
+  data date [not null]
+  id_hospede int [not null, ref: > Hospede.id]
+  id_reserva int [not null, ref: > Reserva.id_reserva]
+}
+
+Table Cancelamento {
+  id_cancelamento int [pk, increment] 
+  data_reserva date [not null]
+  data_cancelamento date [not null]
+  estorno boll [not null]
+}
+
+Table Motivo_cancelamento{
+  id int [pk, increment]
+  id_cancelamento int [not null, ref: > Cancelamento.id_cancelamento]
+  descricao_cancelamento varchar [not null]
+}
