@@ -68,9 +68,12 @@ public class Aluno {
         this.curso = curso;
     }
 
+    public double getMedia() {
+        return (nota1 + nota2) / 2;
+    }
+
     public boolean estaAprovado() {
-        double media = (nota1 + nota2) / 2;
-        return media >= 70 && faltas <= 20;
+        return getMedia() >= 70 && faltas < 20;
     }
 
 }
