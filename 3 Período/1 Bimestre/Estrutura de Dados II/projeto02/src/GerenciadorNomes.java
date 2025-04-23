@@ -35,9 +35,8 @@ public class GerenciadorNomes {
 
         // Retornando a lista ordenada
         public ArrayList<String> nomesOrdenados(){
-            ArrayList<String> copia = new ArrayList<>(nomes);
-            Collections.sort(copia);
-            return copia;
+            Collections.sort(nomes);
+            return nomes;
         }
 
         public ArrayList<String> getNomes(){
