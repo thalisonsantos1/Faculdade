@@ -11,7 +11,8 @@ public class Main {
 
         Professor p = new Professor();
         p.setSalario(1000.0);
-        p.setNome("Joaquim");
-        p.setCpf("44196283837");
+        p.setNome("João");
+        p.setCpf("09268076683");
+        p.setIdade(35);
     }
 }
