@@ -1,4 +1,4 @@
-package heranca.exemplo;
+package heranca.exemplo1;
 
 public class Main {
     public static void main(String[] args) {

@@ -1,4 +1,4 @@
-package heranca.exemplo;
+package heranca.exemplo1;
 
 public class Professor extends Pessoa {
     private double salario;
