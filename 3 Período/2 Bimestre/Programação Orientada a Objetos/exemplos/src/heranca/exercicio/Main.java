@@ -19,7 +19,6 @@ public class Main {
         m.setMarca("Honda");
         m.setPlaca("ABC1234");
         m.setMotorista(motorista);
-        
 
         Carro c = new Carro();
         c.setCapPortaMalas(400);
