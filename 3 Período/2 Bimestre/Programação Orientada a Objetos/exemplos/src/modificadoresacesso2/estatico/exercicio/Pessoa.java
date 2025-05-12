@@ -10,8 +10,6 @@ public class Pessoa {
     private String telefone;
     private String email;
     private static int contador = 0;
-
-
     
     
     public String getNome() {

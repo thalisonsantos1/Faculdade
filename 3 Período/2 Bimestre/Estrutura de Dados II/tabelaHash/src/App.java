@@ -1,5 +1,6 @@
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class App {
     public static int funcaoHash (String palavra, int tam) {
@@ -12,6 +13,21 @@ public class App {
         hash = 13 + palavra.toUpperCase().charAt(0);
         return hash % tam;       
     }
+
+    public static boolean buscarPalavra (String palavra, ArrayList<String> tabelaHash[], int tam) {
+        if (palavra == null || palavra.isEmpty()) {
+            return false;
+        }
+        
+        int categoria = funcaoHash(palavra, tam);
+        if (tabelaHash[categoria] != null && tabelaHash[categoria].contains(palavra)) {
+            return true;
+        }
+        
+        return false;
+    }
+
+    
 
     public static void main(String[] args) throws Exception {
         int totalCategorias = 26;
@@ -36,6 +52,22 @@ public class App {
         for (int i = 0; i < tabelaHash.length; i++) {
             System.out.println(i + "-> " + tabelaHash[i]);
         }
+
+        System.out.println("*******Buscando palavra********");
+
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Digite a palavra que deseja buscar: ");
+        String palavraBusca = sc.nextLine();
+
+        
+
+        if (buscarPalavra(palavraBusca, tabelaHash, totalCategorias)){
+            System.out.println("Palavra encontrada na categoria: " + funcaoHash(palavraBusca, totalCategorias));
+        } else {
+            System.out.println("Palavra nao encontrada");
+        }
+
+        sc.close();
 
     }
 }
