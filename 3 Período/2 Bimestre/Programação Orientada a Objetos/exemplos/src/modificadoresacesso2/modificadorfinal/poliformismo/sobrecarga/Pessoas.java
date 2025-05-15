@@ -1,4 +1,4 @@
-public final class Pessoa { // final impede herança por outras classes
+public final class Pessoas { // final impede herança por outras classes
 
     private String nome;
     private double altura;
@@ -8,16 +8,16 @@ public final class Pessoa { // final impede herança por outras classes
 
     // fazendo sobrecarga de construtores
 
-    public Pessoa(String nome) {
+    public Pessoas(String nome) {
         this.nome = nome;
     }
 
-    public Pessoa (String nome, double altura){
+    public Pessoas (String nome, double altura){
         this.nome = nome;
         this.altura = altura;
     }
 
-    public Pessoa (String nome, double altura, double peso){
+    public Pessoas (String nome, double altura, double peso){
         this.nome = nome;
         this.altura = altura;
         this.peso = peso;
