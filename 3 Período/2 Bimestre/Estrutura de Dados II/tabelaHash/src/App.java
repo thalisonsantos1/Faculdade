@@ -1,6 +1,7 @@
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 public class App {
     public static int funcaoHash (String palavra, int tam) {
@@ -10,7 +11,12 @@ public class App {
         // 65 -> 0
         // 90 -> 25
 
-        hash = 13 + palavra.toUpperCase().charAt(0);
+        //hash = 13 + palavra.toUpperCase().charAt(0); //pega a primeira letra da palavra
+        
+        palavra.toUpperCase();
+        for (int i = 0; i < palavra.length(); i++) {
+            hash += palavra.charAt(i); 
+        }
         return hash % tam;       
     }
 
@@ -59,6 +65,39 @@ public class App {
             String letra = el.get(0);
             System.out.println(i + "-> " + letra + " -> " + el.size());
         }
+
+        int opcao = 0;
+        do {
+            String procurar = JOptionPane.showInputDialog("Digite a palavra que deseja buscar: ");
+            boolean resultado = buscarPalavra(procurar, tabelaHash, totalCategorias);
+            if (resultado) {
+                JOptionPane.showMessageDialog(null, "Palavra encontrada na categoria: " + funcaoHash(procurar, totalCategorias));
+            } else {
+                JOptionPane.showMessageDialog(null, "Palavra nao encontrada");
+            }
+            opcao = JOptionPane.showConfirmDialog(null, "Deseja procurar outra palavra?");
+        } while (opcao == JOptionPane.YES_OPTION);
+
+        // teste de desempenho
+
+        long inicio  = System.currentTimeMillis();
+        for (String palavra : listaPalavra) {
+           listaPalavra.contains(palavra);
+        }
+        long fim = System.currentTimeMillis();
+        System.out.println("Tempo de execucao: " + (fim - inicio) + "ms");
+
+        
+
+        inicio  = System.currentTimeMillis();
+        for (String palavra : listaPalavra) {
+           buscarPalavra(palavra, tabelaHash, totalCategorias);
+        }
+        fim = System.currentTimeMillis();
+        System.out.println("Tempo de execucao: " + (fim - inicio) + "ms");
+        
+
+
 
         /*System.out.println("*******Buscando palavra********");
 

@@ -24,7 +24,7 @@ public class GeradorPalavras {
         List<String> palavras = new ArrayList<>();
         // tranamento exception
         try {
-            FileReader arquivo = new FileReader("tabelaHash\\files\\palavras.txt");
+            FileReader arquivo = new FileReader("files\\palavras.txt");
             BufferedReader leitor = new BufferedReader(arquivo);
             String linha;
 
