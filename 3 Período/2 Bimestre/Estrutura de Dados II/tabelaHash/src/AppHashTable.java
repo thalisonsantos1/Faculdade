@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class AppHashTable {
     private static Scanner input = new Scanner(System.in);
-    private static Hashtable <String, String> alunos = new Hashtable <>(); // aqui voce define a chave e o valor ()
+    private static Hashtable <String, Aluno> alunos = new Hashtable <>(); // aqui voce define a chave e o valor ()
     public static int menu(){
         System.out.println("1 -Cadastrar");
         System.out.println("2- Listar todos");
@@ -22,17 +22,36 @@ public class AppHashTable {
         if (alunos.contains(matricula)){
             System.out.println("Matricula ja cadastrada!");
             return; // paro a execução do metodo
-        }
+        }        
+        
         System.out.println("Nome: ");
         String nome = input.nextLine();
-        alunos.put(matricula, nome);
+       
+        
+        System.out.println("Curso: ");
+        String curso = input.nextLine();
+        
+        System.out.println("Email: ");
+        String email = input.nextLine();
+       
+        Aluno a = new Aluno(matricula, nome, curso, email);
+        alunos.put(matricula, a);
+
+        System.out.println("Aluno cadastrado com sucesso!");
+        
+        
+        
     }
-    public static String buscar(){
+    public static Aluno buscar(){
         System.out.println("---Busca---");
         System.out.println("Matricula: ");
         String matricula = input.nextLine();    
-        
-
+        if (alunos.containsKey(matricula)){
+            Aluno a = alunos.get(matricula);
+            System.out.println("Aluno encontrado: " + a);
+            return a;
+        }
+        System.out.println("Matricula " + matricula + " nao encontrada!");
         return null;
 
     }
@@ -46,7 +65,15 @@ public class AppHashTable {
                     cadastrar();
                     break;
                 case 2:
-                    System.out.println(alunos);
+                    System.out.println("---Listagem---");
+                    if (alunos.isEmpty()){
+                        System.out.println("Nenhum aluno cadastrado!");
+                    }else{
+                        for (String matricula : alunos.keySet()){
+                            Aluno a = alunos.get(matricula);
+                            System.out.println(a);
+                        }
+                    }
                     break;
                 case 3:
                     buscar();
