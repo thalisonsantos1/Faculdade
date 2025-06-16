@@ -1,7 +1,10 @@
+import br.com.caelum.stella.bean.vadation.logic.*;
+
 public class Funcionario {
-    public String documento;
-    public String nome;
-    public double salario;
+    private String documento;
+    private String nome;
+    private double salario;
+    private CPF validador = new CPFV();
 
     public Funcionario(String documento, String nome) {
         setDocumento(documento);
@@ -32,6 +35,9 @@ public class Funcionario {
     public void setSalario(double salario) {
         this.salario = salario;
     }
+
+
+
 
     @Override
     public String toString() {
