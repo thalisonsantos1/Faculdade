@@ -1,5 +1,4 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -20,28 +19,27 @@ public class GeradorPalavras {
         return palavra.toString();
     }
 
-    public static List<String> lerPalavras(){
+    public static List <String> lerPalavras(){
         List<String> palavras = new ArrayList<>();
-        // tranamento exception
+        //tratamento de exceção
         try {
-            FileReader arquivo = new FileReader("files\\palavras.txt");
+            FileReader arquivo = new FileReader("TabelaHash06\\file\\palavras.txt");
             BufferedReader leitor = new BufferedReader(arquivo);
             String linha;
-
             while ((linha = leitor.readLine()) != null) {
-                palavras.add(linha);
                 //System.out.println(linha);
+                palavras.add(linha); //adicionar na estrutura de dados
             }
-            System.out.println("Arquivo lido com sucesso!");
+            System.out.println("Arquivo lido");
+        } catch (Exception e) {
+            System.out.println("Falha na leitura do arquivo");
         }
-        catch (Exception e) {
-            System.out.println("Erro ao ler o arquivo: " + e.getMessage());
-        }
-
         return palavras;
     }
+
 
     public static void main(String[] args) {
         lerPalavras();
     }
+    
 }
