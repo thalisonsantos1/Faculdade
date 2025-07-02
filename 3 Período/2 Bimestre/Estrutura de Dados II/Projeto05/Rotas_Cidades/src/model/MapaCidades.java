@@ -68,6 +68,36 @@ public class MapaCidades {
         }
     }
 
+    public Cidade buscarCidadePorNome(String nome) {
+        for (Cidade cidade : cidades) {
+            if (cidade.getNome().equalsIgnoreCase(nome)) {
+                return cidade;
+            }
+        }
+        return null;
+    }
+
+    public Cidade buscarCidadeMaisPopulosa() {
+        Cidade cidadeMaisPopulosa = null;
+        int maiorPopulacao = 0;
+
+        for (Cidade cidade : cidades) {
+            if (cidade.getPopulacao() > maiorPopulacao) {
+                cidadeMaisPopulosa = cidade;
+                maiorPopulacao = cidade.getPopulacao();
+            }
+        }
+        return cidadeMaisPopulosa;
+    }
+
+    public Set<Cidade> getCidades() {
+        return cidades;
+    }
+
+    public void setCidades(Set<Cidade> cidades) {
+        this.cidades = cidades;
+    }
+
     
 
 }
