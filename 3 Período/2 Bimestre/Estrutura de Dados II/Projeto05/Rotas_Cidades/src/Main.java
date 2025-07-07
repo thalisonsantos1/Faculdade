@@ -109,7 +109,7 @@ public class Main {
                 default:
                     System.out.println("Opção inválida. Tente novamente.");
             }
-        } while (opcao != 6);
+        } while (opcao != 7);
 
         scanner.close();
     }
