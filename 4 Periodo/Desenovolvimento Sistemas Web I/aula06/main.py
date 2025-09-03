@@ -30,7 +30,7 @@ async def lista_produto(prod_id: int, db: Session = Depends(get_db)):
         "preco": produto.preco
     }
 
-@app.post("/produtos/{prod_id}")
+@app.put("/produtos/{prod_id}")
 async def editar_produto(prod_id: int, prod: ProdutoCreate, db: Session = Depends(get_db)):
     produto = db.query(Produto).filter(Produto.id == prod_id).first()
     if not produto:
