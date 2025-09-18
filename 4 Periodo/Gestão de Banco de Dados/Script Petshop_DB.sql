@@ -1,0 +1,237 @@
+CREATE DATABASE petshopdb
+
+CREATE TABLE clientes (
+    cliente_id SERIAL PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    telefone VARCHAR(20),
+    email VARCHAR(100) UNIQUE
+);
+
+CREATE TABLE pets (
+    pet_id SERIAL PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    especie VARCHAR(50) NOT NULL,
+    raca VARCHAR(50),
+    data_nascimento DATE,
+    cliente_id INT NOT NULL,
+    FOREIGN KEY (cliente_id) REFERENCES clientes(cliente_id) ON DELETE CASCADE
+);
+
+CREATE TABLE funcionarios (
+    funcionario_id SERIAL PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    cargo VARCHAR(50) NOT NULL,
+    salario NUMERIC(10,2) CHECK (salario > 0)
+);
+
+CREATE TABLE servicos (
+    servico_id SERIAL PRIMARY KEY,
+    descricao VARCHAR(100) NOT NULL,
+    preco NUMERIC(10,2) CHECK (preco > 0)
+);
+
+CREATE TABLE produtos (
+    produto_id SERIAL PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    preco NUMERIC(10,2) CHECK (preco > 0),
+    estoque INT CHECK (estoque >= 0)
+);
+
+CREATE TABLE atendimentos (
+    atendimento_id SERIAL PRIMARY KEY,
+    data_atendimento DATE NOT NULL,
+    pet_id INT NOT NULL,
+    funcionario_id INT NOT NULL,
+    servico_id INT NOT NULL,
+    FOREIGN KEY (pet_id) REFERENCES pets(pet_id),
+    FOREIGN KEY (funcionario_id) REFERENCES funcionarios(funcionario_id),
+    FOREIGN KEY (servico_id) REFERENCES servicos(servico_id)
+);
+
+
+INSERT INTO clientes (nome, telefone, email) VALUES
+('Maria Silva', '11988887777', 'maria@email.com'),
+('João Souza', '11999996666', 'joao@email.com');
+
+INSERT INTO pets (nome, especie, raca, data_nascimento, cliente_id) VALUES
+('Rex', 'Cachorro', 'Labrador', '2019-05-10', 1),
+('Mimi', 'Gato', 'Persa', '2021-02-15', 2);
+
+INSERT INTO funcionarios (nome, cargo, salario) VALUES
+('Ana Oliveira', 'Veterinária', 5000.00),
+('Carlos Pereira', 'Tosador', 2500.00);
+
+INSERT INTO servicos (descricao, preco) VALUES
+('Banho', 50.00),
+('Tosa', 70.00),
+('Consulta Veterinária', 150.00),
+('Vacina', 120.00);
+
+INSERT INTO produtos (nome, preco, estoque) VALUES
+('Ração Premium', 200.00, 30),
+('Brinquedo Bola', 25.00, 50),
+('Coleira', 40.00, 20);
+('Shampoo', 55.60, 8)
+
+INSERT INTO atendimentos (data_atendimento, pet_id, funcionario_id, servico_id) VALUES
+('2025-08-01', 1, 2, 1), -- Rex fez banho com Carlos
+('2025-08-02', 1, 1, 3), -- Rex fez consulta com Ana
+('2025-08-03', 2, 1, 4); -- Mimi tomou vacina com Ana
+
+CREATE USER gerente WITH PASSWORD '12345';
+
+CREATE USER atendente WITH PASSWORD '12345';
+
+GRANT ALL PRIVILEGES ON DATABASE petshopdb TO gerente;
+
+GRANT SELECT, INSERT, UPDATE ON clientes, pets, atendimentos TO atendente;
+
+-- CONSULTAS COM JOINS
+
+-- 1 - Listando os atendimentos com o nome do cliente, pet, funcionario e serviço
+
+SELECT a.atendimento_id, a.data_atendimento,
+       c.nome AS cliente, p.nome AS pet,
+       f.nome AS funcionario, s.descricao AS servico, s.preco
+FROM atendimentos a
+JOIN pets p ON a.pet_id = p.pet_id
+JOIN clientes c ON p.cliente_id = c.cliente_id
+JOIN funcionarios f ON a.funcionario_id = f.funcionario_id
+JOIN servicos s ON a.servico_id = s.servico_id;
+
+-- 2- Listando todos os pets e seus respectivos donos
+
+SELECT p.nome AS pet, p.especie, c.nome AS dono
+FROM pets p
+JOIN clientes c ON p.cliente_id = c.cliente_id;
+
+-- 3- Listando os serviços realizados por um funcionário específico
+
+SELECT f.nome AS funcionario, s.descricao, COUNT(*) AS qtd_servicos
+FROM atendimentos a
+JOIN funcionarios f ON a.funcionario_id = f.funcionario_id
+JOIN servicos s ON a.servico_id = s.servico_id
+GROUP BY f.nome, s.descricao;
+
+-- 4 - Produtos com estoque baixo
+
+SELECT nome, estoque FROM produtos WHERE estoque < 10;
+
+
+-- PARTE 2: COMPLEMENTO COM NOVAS FUNÇÕES, TRIGGERS E VIEWS
+
+
+
+
+
+-- 1 - Função que retorna a idade do pet em anos
+
+
+CREATE OR REPLACE FUNCTION idade_pet(p_pet_id INT)
+RETURNS INT AS $$
+DECLARE
+    idade INT;
+BEGIN
+    SELECT DATE_PART('year', AGE(CURRENT_DATE, data_nascimento))
+    INTO idade
+    FROM pets
+    WHERE pet_id = p_pet_id;
+
+    RETURN COALESCE(idade, 0);
+END;
+$$ LANGUAGE plpgsql;
+
+
+-- 2 - Função que alcula o faturamento total de serviços em uma data específica
+
+CREATE OR REPLACE FUNCTION faturamento_servicos(p_data DATE)
+RETURNS NUMERIC AS $$
+DECLARE
+    total NUMERIC;
+BEGIN
+    SELECT SUM(s.preco)
+    INTO total
+    FROM atendimentos a
+    JOIN servicos s ON a.servico_id = s.servico_id
+    WHERE a.data_atendimento = p_data;
+
+    RETURN COALESCE(total, 0);
+END;
+$$ LANGUAGE plpgsql;
+
+
+-- TRIGGERS
+
+-- 1 - Trigger para não permitir estoque negativo em produtos:
+
+CREATE OR REPLACE FUNCTION check_estoque()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF NEW.estoque < 0 THEN
+        RAISE EXCEPTION 'Estoque não pode ser negativo!';
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trg_check_estoque
+BEFORE INSERT OR UPDATE ON produtos
+FOR EACH ROW
+EXECUTE FUNCTION check_estoque();
+
+-- 2 - Trigger para registrar log de atendimentos
+
+CREATE TABLE log_atendimentos (
+    log_id SERIAL PRIMARY KEY,
+    atendimento_id INT,
+    data_log TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    acao VARCHAR(50)
+);
+
+CREATE OR REPLACE FUNCTION log_atendimento_func()
+RETURNS TRIGGER AS $$
+BEGIN
+    INSERT INTO log_atendimentos (atendimento_id, acao)
+    VALUES (NEW.atendimento_id, 'NOVO_ATENDIMENTO');
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trg_log_atendimento
+AFTER INSERT ON atendimentos
+FOR EACH ROW
+EXECUTE FUNCTION log_atendimento_func();
+
+
+-- VIEWS
+
+-- 1 - Views com detalhes completos de atendimentos
+
+CREATE OR REPLACE VIEW vw_atendimentos_detalhes AS
+SELECT a.atendimento_id, a.data_atendimento,
+       c.nome AS cliente, p.nome AS pet,
+       f.nome AS funcionario, s.descricao AS servico, s.preco
+FROM atendimentos a
+JOIN pets p ON a.pet_id = p.pet_id
+JOIN clientes c ON p.cliente_id = c.cliente_id
+JOIN funcionarios f ON a.funcionario_id = f.funcionario_id
+JOIN servicos s ON a.servico_id = s.servico_id;
+
+
+-- 2 - View de produtos com estoque crítico (<= 5 un)
+
+CREATE OR REPLACE VIEW vw_estoque_baixo AS
+SELECT produto_id, nome, estoque
+FROM produtos
+WHERE estoque <= 5;
+
+
+-- 3 - View que mostra a soma do faturamento de serviços por dia
+
+CREATE OR REPLACE VIEW vw_faturamento_diario AS
+SELECT a.data_atendimento,
+       SUM(s.preco) AS total_faturamento
+FROM atendimentos a
+JOIN servicos s ON a.servico_id = s.servico_id
+GROUP BY a.data_atendimento;
+
