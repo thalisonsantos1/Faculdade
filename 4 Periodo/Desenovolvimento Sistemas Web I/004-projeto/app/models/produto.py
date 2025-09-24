@@ -8,9 +8,8 @@ class Produto(Base):
     nome = Column(String)
     preco = Column(Float)
     categoria_id = Column(
-        Integer,
+        Integer, 
         ForeignKey("categorias.id", ondelete="CASCADE"),
         nullable=False
-        )
-    
+    )
     categoria = relationship("Categoria", back_populates="produtos")
