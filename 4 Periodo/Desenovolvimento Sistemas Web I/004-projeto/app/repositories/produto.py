@@ -5,7 +5,7 @@ from app.models.produto import Produto
 from app.schemas.produto import ProdutoCreate, ProdutoUpdate, ProdutoOut
 
 def create(db: Session, payload: ProdutoCreate) -> Produto:
-    # objeto = Produto(nome=payload.nome, preco=payload.preco,categoria_id=payload.categoria_id )
+    # objeto = Produto(nome=payload.nome, preco=payload.preco,Produto_id=payload.Produto_id )
     objeto = Produto(**payload.model_dump())
     db.add(objeto)
     db.commit()

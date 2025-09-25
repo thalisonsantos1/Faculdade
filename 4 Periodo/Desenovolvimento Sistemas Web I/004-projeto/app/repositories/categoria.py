@@ -1,12 +1,12 @@
 from sqlalchemy.orm import Session
-# tabela categoria
+# Tabela Categoria
 from app.models.categoria import Categoria
-# contrato da API
-from app.schemas.categoria import CategoriaCreate, CategoriaUpdate, CategoriaOut
+# Contrato da API
+from app.schemas.categoria import CategoriaCreate
 
-def create(db: Session, payload: CategoriaCreate) -> Categoria:
-    # objeto = Categoria(nome=payload.nome, preco=payload.preco,categoria_id=payload.categoria_id )
+def create(db:Session, payload: CategoriaCreate) -> Categoria:
     objeto = Categoria(**payload.model_dump())
+    # objeto.nome = payload.nome
     db.add(objeto)
     db.commit()
     db.refresh(objeto)

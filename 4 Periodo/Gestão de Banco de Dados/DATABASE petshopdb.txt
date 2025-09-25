@@ -118,6 +118,126 @@ GROUP BY f.nome, s.descricao;
 SELECT nome, estoque FROM produtos WHERE estoque < 10;
 
 
+-- PARTE 2: COMPLEMENTO COM NOVAS FUNÇÕES, TRIGGERS E VIEWS
+
+
+
+
+
+-- 1 - Função que retorna a idade do pet em anos
+
+
+CREATE OR REPLACE FUNCTION idade_pet(p_pet_id INT)
+RETURNS INT AS $$
+DECLARE
+    idade INT;
+BEGIN
+    SELECT DATE_PART('year', AGE(CURRENT_DATE, data_nascimento))
+    INTO idade
+    FROM pets
+    WHERE pet_id = p_pet_id;
+
+    RETURN COALESCE(idade, 0);
+END;
+$$ LANGUAGE plpgsql;
+
+
+-- 2 - Função que calcula o faturamento total de serviços em uma data específica
+
+CREATE OR REPLACE FUNCTION faturamento_servicos(p_data DATE)
+RETURNS NUMERIC AS $$
+DECLARE
+    total NUMERIC;
+BEGIN
+    SELECT SUM(s.preco)
+    INTO total
+    FROM atendimentos a
+    JOIN servicos s ON a.servico_id = s.servico_id
+    WHERE a.data_atendimento = p_data;
+
+    RETURN COALESCE(total, 0);
+END;
+$$ LANGUAGE plpgsql;
+
+
+-- TRIGGERS
+
+-- 1 - Trigger para não permitir estoque negativo em produtos:
+
+CREATE OR REPLACE FUNCTION check_estoque()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF NEW.estoque < 0 THEN
+        RAISE EXCEPTION 'Estoque não pode ser negativo!';
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trg_check_estoque
+BEFORE INSERT OR UPDATE ON produtos
+FOR EACH ROW
+EXECUTE FUNCTION check_estoque();
+
+-- 2 - Trigger para registrar log de atendimentos
+
+CREATE TABLE log_atendimentos (
+    log_id SERIAL PRIMARY KEY,
+    atendimento_id INT,
+    data_log TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    acao VARCHAR(50)
+);
+
+CREATE OR REPLACE FUNCTION log_atendimento_func()
+RETURNS TRIGGER AS $$
+BEGIN
+    INSERT INTO log_atendimentos (atendimento_id, acao)
+    VALUES (NEW.atendimento_id, 'NOVO_ATENDIMENTO');
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trg_log_atendimento
+AFTER INSERT ON atendimentos
+FOR EACH ROW
+EXECUTE FUNCTION log_atendimento_func();
+
+
+-- VIEWS
+
+-- 1 - Views com detalhes completos de atendimentos
+
+CREATE OR REPLACE VIEW vw_atendimentos_detalhes AS
+SELECT a.atendimento_id, a.data_atendimento,
+       c.nome AS cliente, p.nome AS pet,
+       f.nome AS funcionario, s.descricao AS servico, s.preco
+FROM atendimentos a
+JOIN pets p ON a.pet_id = p.pet_id
+JOIN clientes c ON p.cliente_id = c.cliente_id
+JOIN funcionarios f ON a.funcionario_id = f.funcionario_id
+JOIN servicos s ON a.servico_id = s.servico_id;
+
+
+-- 2 - View de produtos com estoque crítico (<= 5 un)
+
+CREATE OR REPLACE VIEW vw_estoque_baixo AS
+SELECT produto_id, nome, estoque
+FROM produtos
+WHERE estoque <= 5;
+
+
+-- 3 - View que mostra a soma do faturamento de serviços por dia
+
+CREATE OR REPLACE VIEW vw_faturamento_diario AS
+SELECT a.data_atendimento,
+       SUM(s.preco) AS total_faturamento
+FROM atendimentos a
+JOIN servicos s ON a.servico_id = s.servico_id
+GROUP BY a.data_atendimento;
+
+
+
+
 
 
 

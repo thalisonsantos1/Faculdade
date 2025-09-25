@@ -142,7 +142,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 
--- 2 - Função que alcula o faturamento total de serviços em uma data específica
+-- 2 - Função que calcula o faturamento total de serviços em uma data específica
 
 CREATE OR REPLACE FUNCTION faturamento_servicos(p_data DATE)
 RETURNS NUMERIC AS $$
