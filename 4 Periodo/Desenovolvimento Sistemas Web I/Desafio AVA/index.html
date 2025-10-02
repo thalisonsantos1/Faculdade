@@ -1,0 +1,27 @@
+<button id="enviar">Enviar mensagem</button>
+
+<script>
+document.getElementById('enviar').addEventListener('click', () => {
+  // Monta o corpo da requisição
+  const body = {
+    token: 'SEU_TOKEN',
+    type: 'text',
+    message: 'TEXTO_MENSAGEM',
+    device_id: 'SEU_DEVICE_ID',
+    recipient: 'NUMERO_DESTINO'
+  };
+
+  // Faz o POST para a API
+  fetch('https://api.WhatsAppServices/message/sendText', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(body)
+  })
+  .then(res => res.json())
+  .then(data => {
+    console.log('Resposta da API:', data);
+  });
+});
+</script>
