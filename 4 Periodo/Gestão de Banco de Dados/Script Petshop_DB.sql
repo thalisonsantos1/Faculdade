@@ -235,25 +235,3 @@ FROM atendimentos a
 JOIN servicos s ON a.servico_id = s.servico_id
 GROUP BY a.data_atendimento;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
