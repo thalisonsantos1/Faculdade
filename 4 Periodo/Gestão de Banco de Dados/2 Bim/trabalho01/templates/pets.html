@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pets - Sistema Petshop</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .pet-card {
+            transition: transform 0.2s;
+        }
+        .pet-card:hover {
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-info">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-paw me-2"></i>Petshop
+            </a>
+            <div class="navbar-nav">
+                <a class="nav-link" href="/">Início</a>
+                <a class="nav-link" href="/clientes">Clientes</a>
+                <a class="nav-link" href="/funcionarios">Funcionários</a>
+                <a class="nav-link" href="/servicos">Serviços</a>
+                <a class="nav-link" href="/produtos">Produtos</a>
+                <a class="nav-link active" href="/pets">Pets</a>
+                <a class="nav-link" href="/atendimentos">Atendimentos</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2><i class="fas fa-paw me-2"></i>Gerenciamento de Pets</h2>
+            <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#modalPet">
+                <i class="fas fa-plus me-2"></i>Novo Pet
+            </button>
+        </div>
+
+        <div class="row" id="listaPets">
+            <!-- Cards serão carregados via JavaScript -->
+        </div>
+
+        <!-- Visualização em tabela (alternativa) -->
+        <div class="card mt-4">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="fas fa-table me-2"></i>Visualização em Tabela</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nome</th>
+                                <th>Espécie</th>
+                                <th>Raça</th>
+                                <th>Data Nasc.</th>
+                                <th>Dono</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="corpoTabelaPets">
+                            <!-- Dados carregados via JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Adicionar/Editar Pet -->
+    <div class="modal fade" id="modalPet" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTituloPet">Novo Pet</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formPet">
+                        <input type="hidden" id="petId">
+                        <div class="mb-3">
+                            <label for="nomePet" class="form-label">Nome do Pet</label>
+                            <input type="text" class="form-control" id="nomePet" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="especie" class="form-label">Espécie</label>
+                            <select class="form-select" id="especie" required>
+                                <option value="">Selecione...</option>
+                                <option value="Cachorro">Cachorro</option>
+                                <option value="Gato">Gato</option>
+                                <option value="Pássaro">Pássaro</option>
+                                <option value="Roedor">Roedor</option>
+                                <option value="Réptil">Réptil</option>
+                                <option value="Outro">Outro</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="raca" class="form-label">Raça</label>
+                            <input type="text" class="form-control" id="raca">
+                        </div>
+                        <div class="mb-3">
+                            <label for="dataNascimento" class="form-label">Data de Nascimento</label>
+                            <input type="date" class="form-control" id="dataNascimento">
+                        </div>
+                        <div class="mb-3">
+                            <label for="clienteId" class="form-label">Dono</label>
+                            <select class="form-select" id="clienteId" required>
+                                <option value="">Selecione o dono...</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-info" onclick="salvarPet()">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let pets = [];
+        let clientes = [];
+        let modalPet = new bootstrap.Modal(document.getElementById('modalPet'));
+
+        // Função para formatar data no formato dd/mm/aaaa
+        function formatarData(dataString) {
+            if (!dataString) return '-';
+            
+            try {
+                const data = new Date(dataString);
+                if (isNaN(data.getTime())) return '-';
+                
+                return data.toLocaleDateString('pt-BR');
+            } catch (error) {
+                console.error('Erro ao formatar data:', error);
+                return '-';
+            }
+        }
+
+        // Função para converter dd/mm/aaaa para aaaa-mm-dd (para salvar no banco)
+        function formatarDataParaBanco(dataString) {
+            if (!dataString) return null;
+            
+            try {
+                const [dia, mes, ano] = dataString.split('/');
+                return `${ano}-${mes.padStart(2, '0')}-${dia.padStart(2, '0')}`;
+            } catch (error) {
+                console.error('Erro ao converter data para banco:', error);
+                return null;
+            }
+        }
+
+        // Carregar pets e clientes
+        async function carregarDados() {
+            try {
+                const [petsResponse, clientesResponse] = await Promise.all([
+                    fetch('/api/pets'),
+                    fetch('/api/clientes/simples')
+                ]);
+                
+                pets = await petsResponse.json();
+                clientes = await clientesResponse.json();
+                
+                renderizarCardsPets();
+                renderizarTabelaPets();
+                popularDropdownClientes();
+            } catch (error) {
+                console.error('Erro ao carregar dados:', error);
+            }
+        }
+
+        // Popular dropdown de clientes
+        function popularDropdownClientes() {
+            const select = document.getElementById('clienteId');
+            select.innerHTML = '<option value="">Selecione o dono...</option>';
+            
+            clientes.forEach(cliente => {
+                const option = document.createElement('option');
+                option.value = cliente.id;
+                option.textContent = cliente.nome;
+                select.appendChild(option);
+            });
+        }
+
+        // Renderizar cards
+        function renderizarCardsPets() {
+        const container = document.getElementById('listaPets');
+        container.innerHTML = '';
+
+        pets.forEach(pet => {
+        // Calculando idade e formatando data
+        let idade = 'N/A';
+        let dataNascimentoFormatada = 'Não informada';
+        
+        if (pet.data_nascimento) {
+            const dataNasc = new Date(pet.data_nascimento);
+            dataNascimentoFormatada = dataNasc.toLocaleDateString('pt-BR');
+            idade = new Date().getFullYear() - dataNasc.getFullYear();
+        }
+        
+        const card = document.createElement('div');
+        card.className = 'col-md-4 mb-3';
+        card.innerHTML = `
+            <div class="card pet-card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">${pet.nome}</h5>
+                    <p class="card-text">
+                        <strong>Espécie:</strong> ${pet.especie}<br>
+                        <strong>Raça:</strong> ${pet.raca || 'Não informada'}<br>
+                        <strong>Data Nasc.:</strong> ${dataNascimentoFormatada}<br>
+                        <strong>Idade:</strong> ${idade} anos<br>
+                        <strong>Dono:</strong> ${pet.cliente_nome || 'Não vinculado'}
+                    </p>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-sm btn-warning me-1" onclick="editarPet(${pet.id})">
+                        <i class="fas fa-edit"></i> Editar
+                    </button>
+                    <button class="btn btn-sm btn-danger" onclick="excluirPet(${pet.id})">
+                        <i class="fas fa-trash"></i> Excluir
+                    </button>
+                </div>
+            </div>
+        `;
+        container.appendChild(card);
+    });
+}
+
+        // Renderizar tabela
+        function renderizarTabelaPets() {
+        const tbody = document.getElementById('corpoTabelaPets');
+        tbody.innerHTML = '';
+
+        pets.forEach(pet => {
+            // Formatando a data para dd/mm/aaaa
+            let dataFormatada = '-';
+            if (pet.data_nascimento) {
+                const data = new Date(pet.data_nascimento);
+                dataFormatada = data.toLocaleDateString('pt-BR');
+            }
+
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${pet.id}</td>
+                <td>${pet.nome}</td>
+                <td>${pet.especie}</td>
+                <td>${pet.raca || '-'}</td>
+                <td>${dataFormatada}</td>
+                <td>${pet.cliente_nome || '-'}</td>
+                <td>
+                    <button class="btn btn-sm btn-warning me-1" onclick="editarPet(${pet.id})">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="btn btn-sm btn-danger" onclick="excluirPet(${pet.id})">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+
+        // Abrir modal para novo pet
+        function novoPet() {
+            document.getElementById('modalTituloPet').textContent = 'Novo Pet';
+            document.getElementById('formPet').reset();
+            document.getElementById('petId').value = '';
+            modalPet.show();
+        }
+
+        // Editar pet
+        function editarPet(id) {
+            const pet = pets.find(p => p.id === id);
+            if (pet) {
+                document.getElementById('modalTituloPet').textContent = 'Editar Pet';
+                document.getElementById('petId').value = pet.id;
+                document.getElementById('nomePet').value = pet.nome;
+                document.getElementById('especie').value = pet.especie;
+                document.getElementById('raca').value = pet.raca || '';
+                document.getElementById('dataNascimento').value = pet.data_nascimento || '';
+                document.getElementById('clienteId').value = pet.cliente_id || '';
+                modalPet.show();
+            }
+        }
+
+        // Salvar pet
+        async function salvarPet() {
+            const id = document.getElementById('petId').value;
+            const dados = {
+                nome: document.getElementById('nomePet').value,
+                especie: document.getElementById('especie').value,
+                raca: document.getElementById('raca').value,
+                data_nascimento: document.getElementById('dataNascimento').value || null,
+                cliente_id: document.getElementById('clienteId').value
+            };
+
+            if (!dados.nome || !dados.especie || !dados.cliente_id) {
+                alert('Nome, espécie e dono são obrigatórios!');
+                return;
+            }
+
+            try {
+                const url = id ? `/api/pets/${id}` : '/api/pets';
+                const method = id ? 'PUT' : 'POST';
+
+                const response = await fetch(url, {
+                    method: method,
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(dados)
+                });
+
+                const resultado = await response.json();
+
+                if (resultado.success) {
+                    modalPet.hide();
+                    carregarDados();
+                    alert(id ? 'Pet atualizado com sucesso!' : 'Pet cadastrado com sucesso!');
+                } else {
+                    alert('Erro: ' + resultado.error);
+                }
+            } catch (error) {
+                alert('Erro ao salvar pet: ' + error);
+            }
+        }
+
+        // Excluir pet
+        async function excluirPet(id) {
+            if (confirm('Tem certeza que deseja excluir este pet?')) {
+                try {
+                    const response = await fetch(`/api/pets/${id}`, { method: 'DELETE' });
+                    const resultado = await response.json();
+
+                    if (resultado.success) {
+                        carregarDados();
+                        alert('Pet excluído com sucesso!');
+                    } else {
+                        alert('Erro: ' + resultado.error);
+                    }
+                } catch (error) {
+                    alert('Erro ao excluir pet: ' + error);
+                }
+            }
+        }
+
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', function() {
+            carregarDados();
+            document.querySelector('[data-bs-target="#modalPet"]').addEventListener('click', novoPet);
+        });
+    </script>
+</body>
+</html>

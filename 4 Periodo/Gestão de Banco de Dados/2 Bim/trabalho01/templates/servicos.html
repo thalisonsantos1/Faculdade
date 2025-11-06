@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Serviços - Sistema Petshop</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .nav-pills .nav-link.active {
+            background-color: #6f42c1;
+            border-color: #6f42c1;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #6f42c1;">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-paw me-2"></i>Petshop
+            </a>
+            <div class="navbar-nav">
+                <a class="nav-link" href="/">Início</a>
+                <a class="nav-link" href="/clientes">Clientes</a>
+                <a class="nav-link" href="/funcionarios">Funcionários</a>
+                <a class="nav-link active" href="/servicos">Serviços</a>
+                <a class="nav-link" href="/produtos">Produtos</a>
+                <a class="nav-link" href="/pets">Pets</a>
+                <a class="nav-link" href="/atendimentos">Atendimentos</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2><i class="fas fa-concierge-bell me-2"></i>Gerenciamento de Serviços</h2>
+            <button class="btn" style="background-color: #6f42c1; color: white;" data-bs-toggle="modal" data-bs-target="#modalServico">
+                <i class="fas fa-plus me-2"></i>Novo Serviço
+            </button>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Descrição</th>
+                                <th>Preço</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="corpoTabelaServicos">
+                            <!-- Dados carregados via JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Adicionar/Editar Serviço -->
+    <div class="modal fade" id="modalServico" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTituloServico">Novo Serviço</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formServico">
+                        <input type="hidden" id="servicoId">
+                        <div class="mb-3">
+                            <label for="descricao" class="form-label">Descrição do Serviço</label>
+                            <input type="text" class="form-control" id="descricao" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="precoServico" class="form-label">Preço (R$)</label>
+                            <input type="number" class="form-control" id="precoServico" step="0.01" min="0" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn" style="background-color: #6f42c1; color: white;" onclick="salvarServico()">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let servicos = [];
+        let modalServico = new bootstrap.Modal(document.getElementById('modalServico'));
+
+        // Função para formatar data no formato dd/mm/aaaa
+        function formatarData(dataString) {
+            if (!dataString) return '-';
+            
+            try {
+                const data = new Date(dataString);
+                if (isNaN(data.getTime())) return '-';
+                
+                return data.toLocaleDateString('pt-BR');
+            } catch (error) {
+                console.error('Erro ao formatar data:', error);
+                return '-';
+            }
+        }
+
+        // Função para converter dd/mm/aaaa para aaaa-mm-dd (para salvar no banco)
+        function formatarDataParaBanco(dataString) {
+            if (!dataString) return null;
+            
+            try {
+                const [dia, mes, ano] = dataString.split('/');
+                return `${ano}-${mes.padStart(2, '0')}-${dia.padStart(2, '0')}`;
+            } catch (error) {
+                console.error('Erro ao converter data para banco:', error);
+                return null;
+            }
+        }
+
+        // Carregar serviços
+        async function carregarServicos() {
+            try {
+                const response = await fetch('/api/servicos');
+                servicos = await response.json();
+                renderizarTabelaServicos();
+            } catch (error) {
+                console.error('Erro ao carregar serviços:', error);
+            }
+        }
+
+        // Renderizar tabela
+        function renderizarTabelaServicos() {
+            const tbody = document.getElementById('corpoTabelaServicos');
+            tbody.innerHTML = '';
+
+            servicos.forEach(servico => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${servico.id}</td>
+                    <td>${servico.descricao}</td>
+                    <td>R$ ${servico.preco.toFixed(2)}</td>
+                    <td>
+                        <button class="btn btn-sm btn-warning me-1" onclick="editarServico(${servico.id})">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-sm btn-danger" onclick="excluirServico(${servico.id})">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Abrir modal para novo serviço
+        function novoServico() {
+            document.getElementById('modalTituloServico').textContent = 'Novo Serviço';
+            document.getElementById('formServico').reset();
+            document.getElementById('servicoId').value = '';
+            modalServico.show();
+        }
+
+        // Editar serviço
+        function editarServico(id) {
+            const servico = servicos.find(s => s.id === id);
+            if (servico) {
+                document.getElementById('modalTituloServico').textContent = 'Editar Serviço';
+                document.getElementById('servicoId').value = servico.id;
+                document.getElementById('descricao').value = servico.descricao;
+                document.getElementById('precoServico').value = servico.preco;
+                modalServico.show();
+            }
+        }
+
+        // Salvar serviço
+        async function salvarServico() {
+            const id = document.getElementById('servicoId').value;
+            const dados = {
+                descricao: document.getElementById('descricao').value,
+                preco: parseFloat(document.getElementById('precoServico').value)
+            };
+
+            if (!dados.descricao || isNaN(dados.preco)) {
+                alert('Todos os campos são obrigatórios!');
+                return;
+            }
+
+            try {
+                const url = id ? `/api/servicos/${id}` : '/api/servicos';
+                const method = id ? 'PUT' : 'POST';
+
+                const response = await fetch(url, {
+                    method: method,
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(dados)
+                });
+
+                const resultado = await response.json();
+
+                if (resultado.success) {
+                    modalServico.hide();
+                    carregarServicos();
+                    alert(id ? 'Serviço atualizado com sucesso!' : 'Serviço cadastrado com sucesso!');
+                } else {
+                    alert('Erro: ' + resultado.error);
+                }
+            } catch (error) {
+                alert('Erro ao salvar serviço: ' + error);
+            }
+        }
+
+        // Excluir serviço
+        async function excluirServico(id) {
+            if (confirm('Tem certeza que deseja excluir este serviço?')) {
+                try {
+                    const response = await fetch(`/api/servicos/${id}`, { method: 'DELETE' });
+                    const resultado = await response.json();
+
+                    if (resultado.success) {
+                        carregarServicos();
+                        alert('Serviço excluído com sucesso!');
+                    } else {
+                        alert('Erro: ' + resultado.error);
+                    }
+                } catch (error) {
+                    alert('Erro ao excluir serviço: ' + error);
+                }
+            }
+        }
+
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', function() {
+            carregarServicos();
+            document.querySelector('[data-bs-target="#modalServico"]').addEventListener('click', novoServico);
+        });
+    </script>
+</body>
+</html>
