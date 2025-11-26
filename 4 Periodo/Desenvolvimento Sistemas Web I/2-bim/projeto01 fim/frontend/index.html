@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Início - Painel</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">Gente Control- Gestão de Pessoas e Treinamentos</a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="text-center mb-5 mt-5">
+            <h1 class="mb-4 fw-bold" style="font-size: 2rem;">Seja bem vindo ao Gente Control</h1>
+            <p class="text-muted fs-5">Selecione abaixo a operação desejada</p>
+        </div>
+
+        <div class="row g-4 justify-content-center">
+            <div class="col-md-4">
+                <a href="funcionarios.html" class="card h-100 text-decoration-none text-dark shadow-sm" style="transition: all 0.3s ease;">
+                    <div class="card-body d-flex flex-column justify-content-center text-center">
+                        <h5 class="card-title fw-bold mb-3">Funcionários</h5>
+                        <p class="card-text text-muted">Listar, criar e gerenciar funcionários.</p>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-md-4">
+                <a href="cargos.html" class="card h-100 text-decoration-none text-dark shadow-sm" style="transition: all 0.3s ease;">
+                    <div class="card-body d-flex flex-column justify-content-center text-center">
+                        <h5 class="card-title fw-bold mb-3">Cargos</h5>
+                        <p class="card-text text-muted">Gerenciar cargos e salários.</p>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-md-4">
+                <a href="departamentos.html" class="card h-100 text-decoration-none text-dark shadow-sm" style="transition: all 0.3s ease;">
+                    <div class="card-body d-flex flex-column justify-content-center text-center">
+                        <h5 class="card-title fw-bold mb-3">Departamentos</h5>
+                        <p class="card-text text-muted">Criar e editar departamentos.</p>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-md-4">
+                <a href="treinamentos.html" class="card h-100 text-decoration-none text-dark shadow-sm" style="transition: all 0.3s ease;">
+                    <div class="card-body d-flex flex-column justify-content-center text-center">
+                        <h5 class="card-title fw-bold mb-3">Treinamentos</h5>
+                        <p class="card-text text-muted">Criar e listar treinamentos.</p>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-md-4">
+                <a href="treinamentos_realizados.html" class="card h-100 text-decoration-none text-dark shadow-sm" style="transition: all 0.3s ease;">
+                    <div class="card-body d-flex flex-column justify-content-center text-center">
+                        <h5 class="card-title fw-bold mb-3">Treinamentos Realizados</h5>
+                        <p class="card-text text-muted">Registrar e consultar treinamentos realizados por funcionários.</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <footer class="app-footer mt-4">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center small">
+                <div><strong id="footer-app-name">Gente Control- Gestão de Pessoas e Treinamentos</strong> &copy; <span id="footer-year"></span></div>
+                <div class="text-muted">Painel de Gerenciamento</div>
+                <div><a href="index.html" class="link-secondary">Início</a> &middot; <a href="#" class="link-secondary">Ajuda</a></div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="footer.js"></script>
+    <script src="ui.js"></script>
+</body>
+</html>
