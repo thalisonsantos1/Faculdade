@@ -89,8 +89,11 @@ function renderTRsList(items){
 
     document.querySelectorAll('.del').forEach(b=> b.addEventListener('click', async (e)=>{
         const id = e.currentTarget.dataset.id;
-        const funcName = getFuncionarioName(i.funcionario_id);
-        const treinName = getTreinamentoName(i.treinamento_id);
+        // Find the record item from cache (items param or fallback to cachedTRs)
+        const item = (items || cachedTRs).find(x => String(x.id) === String(id));
+        if (!item) { showAlert('Registro não encontrado', 'danger'); return; }
+        const funcName = getFuncionarioName(item.funcionario_id);
+        const treinName = getTreinamentoName(item.treinamento_id);
         const ok = await window.confirmAction(`Tem certeza que deseja deletar o registro do treinamento "${treinName}" realizado por "${funcName}"? Esta ação não pode ser desfeita.`);
         if (!ok) return;
         const res = await fetch(`${BASE_URL}/treinamentos-realizados/${id}`, { method: 'DELETE' });
