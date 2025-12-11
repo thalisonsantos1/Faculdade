@@ -75,5 +75,4 @@ python -m http.server 5500 --directory frontend
 - Para manter dados entre mudanças de schema, implemente migrations com Alembic.
 - Considere centralizar `BASE_URL` do frontend em um arquivo de configuração para facilitar deploy.
 
-**Contato**
-Se quiser que eu aplique migrações, padronize rotas, ou gere um `requirements.txt` fixado com versões, posso ajudar.
+
