@@ -1,0 +1,8 @@
+Dependencias do Gente Control
+Install: pip install -r dependencies.txt
+
+fastapi
+uvicorn[standard]
+SQLAlchemy
+pydantic
+pydantic-settings

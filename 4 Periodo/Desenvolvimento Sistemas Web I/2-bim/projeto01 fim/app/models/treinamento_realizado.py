@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy import Column, Integer, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
 from app.db.base import Base
 from datetime import date, timedelta
@@ -9,8 +9,8 @@ class TreinamentoRealizado(Base):
     id = Column(Integer, primary_key=True, index=True)
     funcionario_id = Column(Integer, ForeignKey("funcionarios.id"), nullable=False)
     treinamento_id = Column(Integer, ForeignKey("treinamentos.id"), nullable=False)
-    data_realizacao = Column(String, nullable=False)  # Armazenado como string ISO (YYYY-MM-DD)
-    data_validade = Column(String, nullable=False)  # Armazenado como string ISO (YYYY-MM-DD)
+    data_realizacao = Column(DateTime, nullable=False)
+    data_validade = Column(DateTime, nullable=False)
 
     # Relacionamentos
     funcionario = relationship("Funcionario", back_populates="treinamentos_realizados")

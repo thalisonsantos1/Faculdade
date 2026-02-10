@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
-from datetime import date
+from datetime import datetime
 from app.db.deps import get_db
 from app.schemas.treinamento_realizado import TreinamentoRealizadoCreate, TreinamentoRealizadoOut, TreinamentoRealizadoUpdate
 from app.repositories import treinamento_realizado as repo
@@ -32,7 +32,7 @@ def listar_treinamentos_por_funcionario(funcionario_id: int, db: Session = Depen
 @rotas.get("/funcionario/{funcionario_id}/validos", response_model=list[TreinamentoRealizadoOut])
 def listar_treinamentos_validos_por_funcionario(
     funcionario_id: int, 
-    data_referencia: date = Depends(lambda: date.today()),
+    data_referencia: datetime = Depends(lambda: datetime.now()),
     db: Session = Depends(get_db)
 ):
     return repo.get_validos_by_funcionario(db, funcionario_id, data_referencia)
