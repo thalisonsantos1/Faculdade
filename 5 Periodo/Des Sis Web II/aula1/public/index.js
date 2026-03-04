@@ -1,11 +1,12 @@
+const {response} = require("express");
 
 async function listar() {
     document.getElementById("conteudo").innerHTML = "aguarde....";
 
-    const resp = await fetch('http://localhost:3333/pessoa', {
-        method: 'GET',
+    const resp = await fetch("/pessoa", {
+        method: "GET",
         headers: {
-            'Content-Type': 'application/json'
+            "Content-Type": "application/json"
         }
     });
 
@@ -15,19 +16,18 @@ async function listar() {
 
     //see fosse JSON, converte a resposta para JSON
     //const dados = await resp.json();
-
     const retorno = await resp.text();
-    document.getElementById("conteudo").innerHTML = retorno;
 
+    document.getElementById("conteudo").innerHTML = retorno;
 }
 
 async function consultar() {
     document.getElementById("conteudo").innerHTML = "aguarde....";
 
-    const resp = await fetch('/pessoa/222', {
-        method: 'GET',
+    const resp = await fetch("/pessoa/222", {
+        method: "GET",
         headers: {
-            'Content-Type': 'application/json'
+            "Content-Type": "application/json"
         }
     });
 
@@ -50,10 +50,10 @@ async function inserir() {
         email: "bill@microsoft.com"
     }
 
-    const resp = await fetch('/pessoa', {
-        method: 'POST',
+    const resp = await fetch("/pessoa", {
+        method: "POST",
         headers: {
-            'Content-Type': 'application/json'
+            "Content-Type": "application/json"
         },
         body: JSON.stringify(novo)
     });
@@ -78,10 +78,10 @@ async function alterar() {
         email: "bill@microsoft.com"
     }
 
-    const resp = await fetch('/pessoa/123', {
-        method: 'PUT',
+    const resp = await fetch("/pessoa/123", {
+        method: "PUT",
         headers: {
-            'Content-Type': 'application/json'
+            "Content-Type": "application/json"
         },
         body: JSON.stringify(dados)
     });
@@ -100,12 +100,10 @@ async function alterar() {
 async function excluir() {
     document.getElementById("conteudo").innerHTML = "aguarde....";
 
-
-
-    const resp = await fetch('/pessoa/123', {
-        method: 'DELETE',
+    const resp = await fetch("/pessoa/123", {
+        method: "DELETE",
         headers: {
-            'Content-Type': 'application/json'
+            "Content-Type": "application/json"
         },
         body: JSON.stringify(dados)
     });
