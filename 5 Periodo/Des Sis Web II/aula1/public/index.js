@@ -15,10 +15,22 @@ async function listar() {
     }
 
     //see fosse JSON, converte a resposta para JSON
-    //const dados = await resp.json();
-    const retorno = await resp.text();
+    const dados = await resp.json();
+    let tabela =   `<table width = '100%' border = '1'>
+                    <th>Nome</th>
+                    <th>Telefone</th>
+                    `;
 
-    document.getElementById("conteudo").innerHTML = retorno;
+    for (let i = 0; i < dados.length; i++) {
+        tabela += `<tr>
+                    <td>${dados[i].nome}</td>
+                    <td>${dados[i].telefone}</td>
+                    </tr>`;
+    }
+
+    tabela += `</table>`;
+
+    document.getElementById("conteudo").innerHTML = tabela;
 }
 
 async function consultar() {

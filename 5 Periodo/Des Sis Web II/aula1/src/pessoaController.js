@@ -16,6 +16,13 @@ async function connect() {
     return connection;
 }
 
+exports.get = async (req, res, next) => {
+    //res.status(200).send('Rota GET!');
+    const conn = await connect();
+    const [rows] = await connection.query('SELECT * FROM pessoa');
+    res.status(200).json(rows);
+}
+
 exports.post = (req, res, next) => {
     res.status(201).send('Rota POST!');
 };
@@ -28,10 +35,6 @@ exports.put = (req, res, next) => {
 exports.delete = (req, res, next) => {
     let id = req.params.id;
     res.status(200).send(`Rota DELETE! com ID! ${id}`);
-};
-
-exports.get = (req, res, next) => {
-    res.status(200).send('Rota GET!');
 };
 
 exports.getById = (req, res, next) => {
