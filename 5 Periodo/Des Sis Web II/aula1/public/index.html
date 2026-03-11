@@ -1,34 +1,27 @@
-<!DOCTYPE html>
-<html lang="pt-br">
+<html>
     <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Exemplo</title>
-        <link rel="stylesheet" type="text/css" href="index.css">
+        <link rel="stylesheet" 
+           type="text/css"
+           href="index.css"/>
     </head>
     <body>
         <h1>Exemplo</h1>
         <button onclick="novo()">Novo</button>
-        <div id = "conteudo">
-        
-        </div>
+        <div id="conteudo">
 
-        <div id = "formulario" style="display: none;">
+        </div>
+        <div id="formulario" style="display: none;">
             Nome:
-            <input type="text" id txtnome/>
+            <input type="text" id="txtnome"/>
             <br/>
             Telefone:
-            <input type="text" id txttelefone/>
+            <input type="text" id="txttelefone"/>
             <br/>
             <button onclick="salvar()">Salvar</button>
-        
         </div>
 
-        <a href="#" onclick="listar()">GET</a>
-        <a href="#" onclick="consultar()">GET BY ID</a>
-        <a href="#" onclick="inserir()">POST</a>
-        <a href="#" onclick="alterar()">PUT</a>
-        <a href="#" onclick="deletar()">DELETE</a>
+
 
         <script src="index.js"></script>
     </body>
