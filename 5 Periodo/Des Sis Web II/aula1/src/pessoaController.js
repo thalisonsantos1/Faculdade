@@ -23,21 +23,44 @@ exports.get = async (req, res, next) => {
     res.status(200).json(rows);
 }
 
-exports.post = (req, res, next) => {
-    res.status(201).send('Rota POST!');
+exports.post = async(req, res, next) => {
+    const conn = await connect();
+    let {nome, telefone} = req.body;
+    let sql =   `INSERT INTO pessoa (nome, telefone)
+                VALUES ('${nome}', '${telefone}')`;
+    await conn.query(sql);
+    res.status(201).send(`{"resultado}: true`);
 };
 
-exports.put = (req, res, next) => {
+exports.put = async(req, res, next) => {
+    const conn = await connect();
     let id = req.params.id;
-    res.status(200).send(`Rota PUT: com ID! ${id}`);
+    let {nome, telefone} = req.body;
+    let sql =   `UPDATE pessoa SET 
+                nome = '${nome}', telefone = '${telefone}' 
+                WHERE idpessoa = ${id}`;
+    await conn.query(sql);
+    res.status(201).send(`{"resultado}: true`);
 };
 
-exports.delete = (req, res, next) => {
+exports.delete = async(req, res, next) => {
+    const conn = await connect();
     let id = req.params.id;
-    res.status(200).send(`Rota DELETE! com ID! ${id}`);
+    let {nome, telefone} = req.body;
+    let sql =   `DELETE FROM pessoa 
+                WHERE idpessoa = ${id}`;
+    await conn.query(sql);
+    res.status(201).send(`{"resultado}: true`);
 };
 
-exports.getById = (req, res, next) => {
+exports.getById = async (req, res, next) => {
     let id = req.params.id;
-    res.status(200).send(`Rota GET! com ID! ${id}`);
+    const conn = await connect();
+    const [rows] = await conn.query (`SELECT * FROM pessoa
+        WHERE idpessoa = ${id}`);
+    if (rows.length > 0) {
+        res.status(200).send(rows[0]);
+    } else {
+        res.status(404).send('Pessoa não encontrada');
+    }
 };

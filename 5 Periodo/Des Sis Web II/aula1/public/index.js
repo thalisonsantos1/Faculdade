@@ -1,4 +1,15 @@
-const {response} = require("express");
+
+
+listar();
+
+function novo() {
+    document.getElementById("conteuudo").style.display = "none";
+    document.getElementById("formulario").style.display = "block";
+    document.getElementById("txtnome").value = "";
+    document.getElementById("txttelefone").value = "";
+}
+
+
 
 async function listar() {
     document.getElementById("conteudo").innerHTML = "aguarde....";
@@ -129,3 +140,5 @@ async function excluir() {
     const retorno = await resp.text();
     document.getElementById("conteudo").innerHTML = retorno;
 }
+
+

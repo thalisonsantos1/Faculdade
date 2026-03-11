@@ -8,16 +8,20 @@
     </head>
     <body>
         <h1>Exemplo</h1>
+        <button onclick="novo()">Novo</button>
         <div id = "conteudo">
-            <table width="100%" border="1">
-                <th>Titulo 1</th>
-                <th>Titulo 2 </th>
-                <tr>
-                    <td>Conteudo 1</td>
-                    <td>Conteudo 2</td>
-                </tr>
+        
+        </div>
 
-            </table>
+        <div id = "formulario" style="display: none;">
+            Nome:
+            <input type="text" id txtnome/>
+            <br/>
+            Telefone:
+            <input type="text" id txttelefone/>
+            <br/>
+            <button onclick="salvar()">Salvar</button>
+        
         </div>
 
         <a href="#" onclick="listar()">GET</a>
