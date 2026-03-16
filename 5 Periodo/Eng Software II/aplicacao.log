@@ -1,0 +1,6 @@
+[2026-03-16 13:59:04] INFO: Aplicação iniciada
+[2026-03-16 13:59:04] INFO: Processando dados...
+[2026-03-16 13:59:04] WARNING: Tempo de processamento alto
+[2026-03-16 13:59:04] WARNING: Memória baixa
+[2026-03-16 13:59:04] INFO: Salvando resultados no disco
+[2026-03-16 13:59:04] ERROR: Falha na conexão com o banco de dados
