@@ -1,9 +1,9 @@
-const PessoaController = require('./PessoaController');
+const PessoaController = require('./pessoaController');
 
 module.exports = (app, PessoaController) =>  {
     app.post('/pessoa', PessoaController.post);
-    app.put('/pessoa', PessoaController.put);
-    app.delete('/pessoa', PessoaController.delete);
+    app.put('/pessoa/:id', PessoaController.put);
+    app.delete('/pessoa/:id', PessoaController.delete);
     app.get('/pessoa', PessoaController.get);    
     app.get('/pessoa/:id', PessoaController.getById);
 };

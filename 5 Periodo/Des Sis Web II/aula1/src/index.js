@@ -1,5 +1,5 @@
-const PessoaRoute = require('./PessoaRoute');
-const PessoaController = require('./PessoaController');
+const PessoaRoute = require('./pessoaRoute');
+const PessoaController = require('./pessoaController');
 
 module.exports = (app) => {
     PessoaRoute(app, PessoaController)
