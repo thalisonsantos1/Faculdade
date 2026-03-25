@@ -23,6 +23,5 @@ func main() {
 		valorTotal := qtd * preco * (1 - desconto)
 		fmt.Println("O valor total é: ", valorTotal)
 	} 
-
 	
 }
