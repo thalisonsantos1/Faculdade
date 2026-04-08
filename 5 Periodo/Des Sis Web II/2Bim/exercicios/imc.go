@@ -5,6 +5,8 @@ package main
 import "fmt"
 
 func main() {
+	
+
 	var altura float64
 	var peso float64	
 	var imc float64
