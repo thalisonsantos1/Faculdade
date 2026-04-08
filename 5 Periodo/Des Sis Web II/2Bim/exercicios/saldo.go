@@ -10,35 +10,57 @@
 // faça um saque
 // imprima o saldo final
 
+// fazer método transferir, levando dinheiro de uma conta para outra
+
 package main
 
 import "fmt"
 
-
-
-func depositar(saldo *float64, valor float64) {
-	*saldo += valor
-}
-
-func sacar(saldo *float64, valor float64) bool {
-	if (valor > *saldo) {
-		fmt.Println("Saldo insuficiente")
-		return false
-	} else {
-		*saldo -= valor
-		return true
-	}
+type Conta struct {
+	correntista string
+	saldo float64
 }
 
 func main() {
 
-	var saldo float64 = 1000.0
-
-	depositar(&saldo, 100.0)
-	fmt.Println(saldo)
-
-	sacar(&saldo, 500.0)
-
-	sacar(&saldo, 5000.0)
-	fmt.Println(saldo)
+	c := Conta{}
+	c.correntista = "Joao"
+	c.saldo = 1000.0
+	c.depositar(500)
+	c.sacar(250)
+	c.sacar(2000)
+	c2 := Conta{}
+	c.transferir(&c2, 500)
+	fmt.Println("Saldo conta 1:", c.saldo, "Saldo conta 2:", c2.saldo)
+	
 }
+
+func (c *Conta) depositar(valor float64) {
+	c.saldo += valor
+}
+
+func (c *Conta) sacar(valor float64) bool {
+	if (valor > c.saldo) {
+		fmt.Println("Saldo insuficiente")
+		return false
+	} else {
+		c.saldo -= valor
+		return true
+	}
+}
+
+func (c *Conta) transferir(outra *Conta, valor float64) bool {
+	if valor > c.saldo {
+		fmt.Println("Saldo insuficiente")
+		return false
+	} else {
+		c.saldo -= valor
+		outra.saldo += valor
+		return true
+	}
+}
+
+
+
+
+
