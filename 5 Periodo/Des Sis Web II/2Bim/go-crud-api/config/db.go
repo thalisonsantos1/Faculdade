@@ -2,30 +2,63 @@ package config
 
 import (
 	"database/sql"
-	"log"
 	"fmt"
+	"log"
+	"sync"
+
 	_ "github.com/go-sql-driver/mysql"
 )
 
 const (
-	DB_HOST = "54.91.193.137"
-	DB_USER = "libertas"
+	DB_HOST     = "54.91.193.137"
+	DB_USER     = "libertas"
 	DB_PASSWORD = "123456"
-	DB_NAME = "libertas5per"
+	DB_NAME     = "libertas5per"
 )
 
-func Connect () (*sql.DB, error) {
-	//Monta a string de conexão
-	dsn := fmg.Sprintf("%s:%s@tcp(%s)/%s", DB_USER, DB_PASSWORD, DB_HOST, DB_NAME)
-	//Conecta ao banco de dados
-	db, err := sql.Open("mysql", dsn)
-	if err != nil {
-		log.Fatal(err)
-	}
-	err = db.Ping()
+var (
+	db   *sql.DB
+	once sync.Once
+)
+
+func Connect() (*sql.DB, error) {
+	var err error
+	once.Do(func() {
+		// Monta a string de conexão com timeout e parseTime
+		dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s?parseTime=true&timeout=5s&readTimeout=5s&writeTimeout=5s", DB_USER, DB_PASSWORD, DB_HOST, DB_NAME)
+
+		db, err = sql.Open("mysql", dsn)
+		if err != nil {
+			return
+		}
+
+		db.SetMaxOpenConns(10)
+		db.SetMaxIdleConns(5)
+		db.SetConnMaxLifetime(0)
+
+		log.Println("Connected to the database pool successfully!")
+	})
+
 	if err != nil {
 		return nil, err
 	}
-	log.Println("Connected to the database succsessfully!!")
+	if db == nil {
+		return nil, fmt.Errorf("database connection not initialized")
+	}
+
 	return db, nil
+}
+
+func Ping() error {
+	if db == nil {
+		return fmt.Errorf("database connection not initialized")
+	}
+	return db.Ping()
+}
+
+func CloseDB() error {
+	if db != nil {
+		return db.Close()
+	}
+	return nil
 }
