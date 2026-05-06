@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"database/sql"
 	"encoding/json"
 	"go-crud-api/config"
 	"go-crud-api/models"
@@ -143,4 +144,35 @@ func DeleteUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusNoContent)
+}
+
+func GetUser(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	idStr := vars["id"]
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		http.Error(w, "ID inválido", http.StatusBadRequest)
+		return
+	}
+
+	db, err := config.Connect()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	var user models.User
+	row := db.QueryRow("SELECT idusuario, nome, email, senha, telefone FROM usuario WHERE idusuario = ?", id)
+	err = row.Scan(&user.Idusuario, &user.Nome, &user.Email, &user.Senha, &user.Telefone)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			http.Error(w, "Usuário não encontrado", http.StatusNotFound)
+		} else {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+		}
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(user)
 }
