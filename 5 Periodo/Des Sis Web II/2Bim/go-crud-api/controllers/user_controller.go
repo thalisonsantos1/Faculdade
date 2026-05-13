@@ -18,7 +18,7 @@ func GetUsers(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	rows, err := db.Query("SELECT idusuario, nome, email, senha, telefone FROM usuario")
+	rows, err := db.Query("SELECT idusuario, nome, email, senha, telefone FROM usuario ORDER BY nome")
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return

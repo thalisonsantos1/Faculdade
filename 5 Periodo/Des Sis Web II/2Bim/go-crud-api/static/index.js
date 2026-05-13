@@ -1,213 +1,289 @@
-const apiUrl = "/users";
-let users = [];
+let usuarioEmEdicao = null;
+let usuarioParaDelete = null;
+let deleteModal = null;
 
-function setStatus(message, isError = false) {
-    const status = document.getElementById("statusMessage");
-    status.textContent = message;
-    status.className = isError ? "mt-3 text-center text-danger" : "mt-3 text-center text-muted";
+function mostrarAlerta(mensagem, tipo = 'success') {
+    const alertContainer = document.getElementById('alertContainer');
+    const alertHtml = `
+        <div class="alert alert-${tipo} alert-dismissible fade show" role="alert">
+            ${mensagem}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    `;
+    alertContainer.innerHTML = alertHtml;
+    setTimeout(() => {
+        alertContainer.innerHTML = '';
+    }, 4000);
 }
 
-function formatValue(value) {
-    return value ?? "-";
+function novo() {
+    usuarioEmEdicao = null;
+    document.getElementById('formTitle').textContent = 'Nova Pessoa';
+    document.getElementById('conteudo').style.display = 'none';
+    document.getElementById('formulario').style.display = 'block';
+    document.getElementById('nameInput').value = '';
+    document.getElementById('phoneInput').value = '';
+    document.getElementById('emailInput').value = '';
+    document.getElementById('nameInput').focus();
 }
 
-function renderUsers(list) {
-    const tbody = document.getElementById("userTableBody");
+function cancelar() {
+    usuarioEmEdicao = null;
+    document.getElementById('conteudo').style.display = 'block';
+    document.getElementById('formulario').style.display = 'none';
+    document.getElementById('nameInput').value = '';
+    document.getElementById('phoneInput').value = '';
+    document.getElementById('emailInput').value = '';
+}
 
-    if (!list.length) {
-        tbody.innerHTML = `
-            <tr>
-                <td colspan="5" class="text-center py-4">Nenhum usuário encontrado.</td>
-            </tr>
+function salvar() {
+    if (usuarioEmEdicao) {
+        alterar();
+    } else {
+        inserir();
+    }
+}
+
+function normalizeResponseData(json) {
+    if (Array.isArray(json)) {
+        return json;
+    }
+    if (json && Array.isArray(json.users)) {
+        return json.users;
+    }
+    if (json && Array.isArray(json.data)) {
+        return json.data;
+    }
+    return [];
+}
+
+async function listar() {
+    document.getElementById('conteudo').innerHTML = `
+        <div class="card-body text-center">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Carregando...</span>
+            </div>
+            <p class="mt-2">Carregando pessoas...</p>
+        </div>
+    `;
+
+    try {
+        const resp = await fetch('/users');
+        if (!resp.ok) {
+            throw new Error(`Erro ao listar: ${resp.status}`);
+        }
+
+        const json = await resp.json();
+        const dados = normalizeResponseData(json);
+
+        let rows = '';
+        if (dados.length === 0) {
+            rows = `
+                <tr>
+                    <td colspan="5" class="text-center py-4 text-muted">Nenhuma pessoa cadastrada</td>
+                </tr>
+            `;
+        } else {
+            dados.forEach(item => {
+                const id = item.idusuario ?? '-';
+                const nome = item.nome || '-';
+                const telefone = item.telefone || '-';
+                const email = item.email || '-';
+                const nomeEscaped = String(nome).replace(/'/g, "\\'");
+
+                rows += `
+                    <tr>
+                        <td>${id}</td>
+                        <td>${nome}</td>
+                        <td>${telefone}</td>
+                        <td>${email}</td>
+                        <td>
+                            <button class="btn btn-sm btn-info me-2" onclick="editar(${id})">
+                                <i class="bi bi-pencil"></i> Editar
+                            </button>
+                            <button class="btn btn-sm btn-danger" onclick="confirmarDelecao(${id}, '${nomeEscaped}')">
+                                <i class="bi bi-trash"></i> Deletar
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        const tabela = `
+            <div class="table-responsive">
+                <table class="table table-striped table-hover mb-0">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>Telefone</th>
+                            <th>Email</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${rows}
+                    </tbody>
+                </table>
+            </div>
         `;
-        return;
-    }
 
-    tbody.innerHTML = list
-        .map(user => `
-            <tr>
-                <td>${formatValue(user.idusuario)}</td>
-                <td>${formatValue(user.nome)}</td>
-                <td>${formatValue(user.email)}</td>
-                <td>${formatValue(user.telefone)}</td>
-                <td>
-                    <button type="button" class="btn btn-sm btn-outline-primary me-2" onclick="editUser(${user.idusuario})">Editar</button>
-                    <button type="button" class="btn btn-sm btn-outline-danger" onclick="deleteUser(${user.idusuario})">Excluir</button>
-                </td>
-            </tr>
-        `)
-        .join("\n");
+        document.getElementById('conteudo').innerHTML = tabela;
+    } catch (error) {
+        console.error('Erro completo:', error);
+        mostrarAlerta('Erro ao carregar pessoas: ' + error.message, 'danger');
+        document.getElementById('conteudo').innerHTML = `
+            <div class="card-body text-center">
+                <p class="text-danger"><strong>Erro:</strong> ${error.message}</p>
+            </div>
+        `;
+    }
 }
 
-function applyFilter(term) {
-    const normalized = term.trim().toLowerCase();
-    if (!normalized) {
-        renderUsers(users);
-        return;
+async function editar(id) {
+    try {
+        const resp = await fetch(`/users/${id}`, {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' }
+        });
+
+        if (!resp.ok) {
+            throw new Error(`Erro ao buscar pessoa: ${resp.status}`);
+        }
+
+        const pessoa = await resp.json();
+        usuarioEmEdicao = pessoa;
+        document.getElementById('formTitle').textContent = `Editando: ${pessoa.nome}`;
+        document.getElementById('nameInput').value = pessoa.nome || '';
+        document.getElementById('phoneInput').value = pessoa.telefone || '';
+        document.getElementById('emailInput').value = pessoa.email || '';
+        document.getElementById('conteudo').style.display = 'none';
+        document.getElementById('formulario').style.display = 'block';
+        document.getElementById('nameInput').focus();
+    } catch (error) {
+        console.error('Erro:', error);
+        mostrarAlerta('Erro ao buscar pessoa: ' + error.message, 'danger');
     }
-    const filtered = users.filter(user => {
-        return [user.nome, user.email, user.telefone]
-            .filter(Boolean)
-            .some(value => value.toLowerCase().includes(normalized));
+}
+
+async function alterar() {
+    try {
+        const nome = document.getElementById('nameInput').value;
+        const telefone = document.getElementById('phoneInput').value;
+        const email = document.getElementById('emailInput').value;
+
+        if (!nome || !telefone || !email) {
+            mostrarAlerta('Todos os campos são obrigatórios', 'warning');
+            return;
+        }
+
+        const atualizar = { nome, telefone, email };
+        const resp = await fetch(`/users/${usuarioEmEdicao.idusuario}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(atualizar)
+        });
+
+        if (!resp.ok) {
+            throw new Error(`Erro ao atualizar: ${resp.status}`);
+        }
+
+        document.getElementById('conteudo').style.display = 'block';
+        document.getElementById('formulario').style.display = 'none';
+        usuarioEmEdicao = null;
+        mostrarAlerta('Pessoa atualizada com sucesso!', 'success');
+        listar();
+    } catch (error) {
+        console.error('Erro:', error);
+        mostrarAlerta('Erro ao atualizar: ' + error.message, 'danger');
+    }
+}
+
+async function inserir() {
+    try {
+        const nome = document.getElementById('nameInput').value;
+        const telefone = document.getElementById('phoneInput').value;
+        const email = document.getElementById('emailInput').value;
+
+        if (!nome || !telefone || !email) {
+            mostrarAlerta('Todos os campos são obrigatórios', 'warning');
+            return;
+        }
+
+        const novo = { nome, telefone, email };
+        const resp = await fetch('/users', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(novo)
+        });
+
+        if (!resp.ok) {
+            throw new Error(`Erro ao inserir: ${resp.status}`);
+        }
+
+        document.getElementById('conteudo').style.display = 'block';
+        document.getElementById('formulario').style.display = 'none';
+        document.getElementById('nameInput').value = '';
+        document.getElementById('phoneInput').value = '';
+        document.getElementById('emailInput').value = '';
+        mostrarAlerta('Pessoa inserida com sucesso!', 'success');
+        listar();
+    } catch (error) {
+        console.error('Erro:', error);
+        mostrarAlerta('Erro ao inserir: ' + error.message, 'danger');
+    }
+}
+
+function confirmarDelecao(id, nome) {
+    usuarioParaDelete = id;
+    document.getElementById('nomeToDelete').textContent = nome;
+    if (deleteModal) {
+        deleteModal.show();
+    }
+}
+
+async function confirmarDelete() {
+    if (!usuarioParaDelete) return;
+
+    try {
+        const resp = await fetch(`/users/${usuarioParaDelete}`, {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' }
+        });
+
+        if (!resp.ok) {
+            throw new Error(`Erro ao deletar: ${resp.status}`);
+        }
+
+        if (deleteModal) {
+            deleteModal.hide();
+        }
+
+        usuarioParaDelete = null;
+        mostrarAlerta('Pessoa deletada com sucesso!', 'success');
+        listar();
+    } catch (error) {
+        console.error('Erro:', error);
+        mostrarAlerta('Erro ao deletar: ' + error.message, 'danger');
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    deleteModal = new bootstrap.Modal(document.getElementById('confirmDeleteModal'));
+    document.getElementById('searchInput').addEventListener('input', function(event) {
+        const searchTerm = event.target.value.trim().toLowerCase();
+        if (!searchTerm) {
+            listar();
+            return;
+        }
+
+        const rows = Array.from(document.querySelectorAll('#conteudo tbody tr'));
+        rows.forEach(row => {
+            const texto = row.innerText.toLowerCase();
+            row.style.display = texto.includes(searchTerm) ? '' : 'none';
+        });
     });
-    renderUsers(filtered);
-}
 
-function getFormData() {
-    return {
-        nome: document.getElementById("nameInput").value.trim(),
-        email: document.getElementById("emailInput").value.trim(),
-        telefone: document.getElementById("phoneInput").value.trim(),
-    };
-}
-
-function showForm() {
-    const wrapper = document.getElementById("userFormWrapper");
-    if (wrapper) {
-        wrapper.classList.add("show");
-        wrapper.classList.remove("d-none");
-        wrapper.style.display = "block";
-    }
-}
-
-function hideForm() {
-    const wrapper = document.getElementById("userFormWrapper");
-    if (wrapper) {
-        wrapper.classList.remove("show");
-        wrapper.classList.add("d-none");
-        wrapper.style.display = "none";
-    }
-}
-
-function resetForm() {
-    document.getElementById("userId").value = "";
-    document.getElementById("nameInput").value = "";
-    document.getElementById("emailInput").value = "";
-    document.getElementById("phoneInput").value = "";
-    document.getElementById("saveButton").textContent = "Salvar";
-    setStatus("Pronto para criar um novo usuário.");
-}
-
-function populateForm(user) {
-    document.getElementById("userId").value = user.idusuario ?? "";
-    document.getElementById("nameInput").value = user.nome ?? "";
-    document.getElementById("emailInput").value = user.email ?? "";
-    document.getElementById("phoneInput").value = user.telefone ?? "";
-    document.getElementById("saveButton").textContent = "Atualizar";
-    setStatus(`Editando usuário ${formatValue(user.idusuario)}.`);
-    showForm();
-}
-
-async function loadUsers() {
-    setStatus("Carregando usuários...");
-    try {
-        const response = await fetch(apiUrl);
-        if (!response.ok) {
-            throw new Error(`Erro ao carregar usu�rios: ${response.status} ${response.statusText}`);
-        }
-        users = await response.json();
-        renderUsers(users);
-        setStatus(`Exibindo ${users.length} usu�rio(s).`);
-    } catch (error) {
-        renderUsers([]);
-        setStatus(error.message, true);
-        console.error(error);
-    }
-}
-
-async function saveUser(event) {
-    event.preventDefault();
-    const id = document.getElementById("userId").value;
-    const payload = getFormData();
-
-    if (!payload.nome || !payload.email) {
-        setStatus("Nome e email são obrigatórios.", true);
-        return;
-    }
-
-    const method = id ? "PUT" : "POST";
-    const url = id ? `${apiUrl}/${id}` : apiUrl;
-
-    try {
-        const response = await fetch(url, {
-            method,
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload),
-        });
-
-        if (!response.ok) {
-            const text = await response.text();
-            throw new Error(text || `Falha ao salvar usu�rio (${response.status})`);
-        }
-
-        await loadUsers();
-        resetForm();
-        hideForm();
-        setStatus(id ? "Usuário atualizado com sucesso." : "Usuário criado com sucesso.");
-    } catch (error) {
-        setStatus(error.message, true);
-        console.error(error);
-    }
-}
-
-function editUser(id) {
-    const user = users.find(userEntry => Number(userEntry.idusuario) === Number(id));
-    if (!user) {
-        setStatus("Usuário não encontrado para edição.", true);
-        return;
-    }
-    populateForm(user);
-    window.scrollTo({ top: 0, behavior: "smooth" });
-}
-
-async function deleteUser(id) {
-    if (!confirm("Deseja realmente excluir este usu�rio?")) {
-        return;
-    }
-
-    try {
-        const response = await fetch(`${apiUrl}/${id}`, { method: "DELETE" });
-        if (!response.ok && response.status !== 204) {
-            const text = await response.text();
-            throw new Error(text || `Falha ao excluir usu�rio (${response.status})`);
-        }
-        await loadUsers();
-        resetForm();
-        setStatus("Usuário excluído com sucesso.");
-    } catch (error) {
-        setStatus(error.message, true);
-        console.error(error);
-    }
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-    hideForm();
-
-    const searchInput = document.getElementById("searchInput");
-    const form = document.getElementById("userForm");
-    const cancelButton = document.getElementById("cancelButton");
-
-    if (searchInput) {
-        searchInput.addEventListener("input", event => applyFilter(event.target.value));
-    }
-    if (form) {
-        form.addEventListener("submit", saveUser);
-    }
-    if (cancelButton) {
-        cancelButton.addEventListener("click", () => {
-            resetForm();
-            hideForm();
-        });
-    }
-
-    const newUserButton = document.getElementById("newUserButton");
-    if (newUserButton) {
-        newUserButton.addEventListener("click", () => {
-            resetForm();
-            showForm();
-            window.scrollTo({ top: 0, behavior: "smooth" });
-        });
-    }
-
-    loadUsers();
+    listar();
 });
